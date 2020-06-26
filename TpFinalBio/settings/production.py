@@ -3,7 +3,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tpbioinformatica.herokuapp.com/']
+ALLOWED_HOSTS = ['tpbioinformatica.herokuapp.com']
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
