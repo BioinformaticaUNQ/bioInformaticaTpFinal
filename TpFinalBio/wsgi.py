@@ -17,4 +17,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TpFinalBio.settings.production'
 
 from dj_static import Cling
 
-application = Cling(et_wsgi_application())
+application = Cling(get_wsgi_application())
