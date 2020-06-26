@@ -1,0 +1,115 @@
+<html>
+
+<head>
+
+    {% load static %}
+
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&key=AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8"></script>
+    <script type="text/javascript">
+      function initialize() {
+          var map = new google.maps.Map(document.getElementById("map_canvas"), {
+              zoom: 8,
+              center: new google.maps.LatLng(29.643920, -82.344409)
+          });
+
+          var marker_icon_FF0000 = {
+              url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAiCAYAAACwaJKDAAAABmJLR0QA/wD/AP+gvaeTAAACBklEQVRIia3VzUtUURgH4GdG/AiyZZShtWgXUbSIFtGqRYtqWRLhXyBYf0K6MaJQ2gRtayHtijYpleHKSCgIcRHoIiOSKEzLKea0OOeqTfPlzPzg5Qwz9zz3nXPvPTeneo7gNA4gjyI+Ygbva8z9L2cxi9BHOE+4msY+gliz6biayWE0R7GfMEcoEkJJzRH6CbnY+WiaVxEc6yY8KQOVq8eE7tj1WCV4qIswUyeY1QyhK8JDpWAP1m7vEMzqTkTXkrOZkYOEQoNogXAowiPE2wQuDqC9nktZJu0YSE72XRs2phrsMqup2OkG2vLpRB19DXaZJc3vQHv294Um0e3z8yigsNQkmuYXUMie5/npJtE0fz55YLiXsNHELdUbV2B4+4n2Y/Vmg+itCK4m558MdhBe7hCcJnRGdLDS0ox3E17XCb4h7IngeLX1zuFhD2G5BriytY4Tqmx9WXbh3Tnl99KsLkdwAbtrgVmO4/eDCuCkzd3/TL1glru9hF8lYJFwMoKPdgrCXqzfL0GfR7CIo42gcO9YCXopolONgnAC4W0Cv9l8dVxpBoWFGwmdiOC6Glc8X+3HlKeT6cOzOLzAjyaaBBc602ZzOHZ6vVkQ9kl7Qi6ip1qBwpdrEfwjPnFVU8+awuKrOC7hZ6vQlQ9baM3Ui379HsfVVqKf07jcSvRTGhfrOfgvIP3ECS77BDoAAAAASUVORK5CYII=",
+              labelOrigin: new google.maps.Point(10, 11)
+          };
+
+          new google.maps.Marker({
+              position: new google.maps.LatLng(29.643920, -82.344409),
+              title: "Buena Vista Park",
+              icon: marker_icon_FF0000,
+              draggable: true,
+              map: map
+          });
+
+      }
+    </script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <!-- Bootstrap -->
+    <link href="{%static 'TpFinalBioApp/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+     <!-- Fonts -->
+    
+     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet"> 
+     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+     
+
+    <!-- Styles -->
+    <link href="{%static 'TpFinalBioApp//css/gestion.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <h1 class="site-heading text-center text-white d-none d-lg-block">
+      
+        <span class="site-heading-lower">Introducción a la Bioinformática - UNQ</span>
+      </h1>
+
+
+ <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="{% url 'Home' %}">Gestión de Pedidos</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item {% if request.path == '/' %}active{% endif %} px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'Home' %}">Inicio</a>
+          </li>
+          <li class="nav-item {% if request.path == '/map' %}active{% endif %} px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'Map' %}">Mapa</a>
+          </li>   
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido cambiante -->
+  {% block content %}
+
+  {% endblock %}
+
+  <!-- Footer -->
+  <footer class="footer text-faded text-center py-5">
+    <div class="container">
+      <p class="m-0">
+        <a href="#" class="link">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+          </span>
+        </a>
+        <a href="#" class="link">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+          </span>
+        </a>
+        <a href="#" class="link">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+          </span>
+        </a>
+    </p>
+      <p class="m-0 mbt">
+        Lucio Francioni - 
+      </p>
+      <p class="m-0 mbt1">&copy; Introducción a la Bioinformática - UNQ 2020</p>
+    </div>
+</footer>
+
+  <!-- Bootstrap -->
+  <script src="{%static 'TpFinalBioApp/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{%static 'TpFinalBioApp/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+</body>
+</html>
