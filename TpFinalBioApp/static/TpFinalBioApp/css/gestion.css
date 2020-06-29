@@ -24,8 +24,6 @@ p {
 }
 
 .site-heading {
-  margin-top: 5rem;
-  margin-bottom: 5rem;
   text-transform: uppercase;
   line-height: 1;
   font-family: 'Raleway';
@@ -38,7 +36,7 @@ p {
 }
 
 .site-heading .site-heading-lower {
-  font-size: 5rem;
+  font-size: 3rem;
   font-weight: 100;
   line-height: 4rem;
 }

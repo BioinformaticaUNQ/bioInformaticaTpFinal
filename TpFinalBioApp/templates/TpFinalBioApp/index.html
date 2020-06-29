@@ -67,15 +67,27 @@
           <li class="nav-item {% if request.path == '/map' %}active{% endif %} px-lg-4">
             <a class="nav-link text-uppercase text-expanded" href="{% url 'Map' %}">Mapa</a>
           </li>   
+          <li class="nav-item {% if request.path == '/upload' %}active{% endif %} px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'Upload' %}">Subir secuencia</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- Contenido cambiante -->
-  {% block content %}
-
-  {% endblock %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-md-12">
+        <div class="card mb-4">
+          <div class="card-body">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer text-faded text-center py-5">
