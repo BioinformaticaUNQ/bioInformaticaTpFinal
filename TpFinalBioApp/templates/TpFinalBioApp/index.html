@@ -3,31 +3,6 @@
 <head>
 
     {% load static %}
-
-
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&key=AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8"></script>
-    <script type="text/javascript">
-      function initialize() {
-          var map = new google.maps.Map(document.getElementById("map_canvas"), {
-              zoom: 8,
-              center: new google.maps.LatLng(29.643920, -82.344409)
-          });
-
-          var marker_icon_FF0000 = {
-              url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAiCAYAAACwaJKDAAAABmJLR0QA/wD/AP+gvaeTAAACBklEQVRIia3VzUtUURgH4GdG/AiyZZShtWgXUbSIFtGqRYtqWRLhXyBYf0K6MaJQ2gRtayHtijYpleHKSCgIcRHoIiOSKEzLKea0OOeqTfPlzPzg5Qwz9zz3nXPvPTeneo7gNA4gjyI+Ygbva8z9L2cxi9BHOE+4msY+gliz6biayWE0R7GfMEcoEkJJzRH6CbnY+WiaVxEc6yY8KQOVq8eE7tj1WCV4qIswUyeY1QyhK8JDpWAP1m7vEMzqTkTXkrOZkYOEQoNogXAowiPE2wQuDqC9nktZJu0YSE72XRs2phrsMqup2OkG2vLpRB19DXaZJc3vQHv294Um0e3z8yigsNQkmuYXUMie5/npJtE0fz55YLiXsNHELdUbV2B4+4n2Y/Vmg+itCK4m558MdhBe7hCcJnRGdLDS0ox3E17XCb4h7IngeLX1zuFhD2G5BriytY4Tqmx9WXbh3Tnl99KsLkdwAbtrgVmO4/eDCuCkzd3/TL1glru9hF8lYJFwMoKPdgrCXqzfL0GfR7CIo42gcO9YCXopolONgnAC4W0Cv9l8dVxpBoWFGwmdiOC6Glc8X+3HlKeT6cOzOLzAjyaaBBc602ZzOHZ6vVkQ9kl7Qi6ip1qBwpdrEfwjPnFVU8+awuKrOC7hZ6vQlQ9baM3Ui379HsfVVqKf07jcSvRTGhfrOfgvIP3ECS77BDoAAAAASUVORK5CYII=",
-              labelOrigin: new google.maps.Point(10, 11)
-          };
-
-          new google.maps.Marker({
-              position: new google.maps.LatLng(29.643920, -82.344409),
-              title: "Buena Vista Park",
-              icon: marker_icon_FF0000,
-              draggable: true,
-              map: map
-          });
-
-      }
-    </script>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     
@@ -77,14 +52,12 @@
 
   <!-- Contenido cambiante -->
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10 col-md-12">
-        <div class="card mb-4">
-          <div class="card-body">
-            {% block content %}
-            {% endblock %}
-          </div>
-        </div>
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% block contenido %}
+        
+        {% endblock contenido %}
+
       </div>
     </div>
   </div>
@@ -120,8 +93,11 @@
 </footer>
 
   <!-- Bootstrap -->
-  <script src="{%static 'TpFinalBioApp/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="{%static 'TpFinalBioApp/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8&libraries=places">
+  </script>
+  <script src="{%static 'TpFinalBioApp/js/scripts.js' %}"></script>
 </body>
 </html>

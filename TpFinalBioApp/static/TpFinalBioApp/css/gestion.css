@@ -275,3 +275,11 @@ ul.errorlist{
   font-style: italic;
   color: red;
 }
+
+.mapaStyle {
+  margin-top: 10px;
+  position: relative;
+  padding-bottom: 75%;
+  height: 0;
+  overflow: hidden;
+}

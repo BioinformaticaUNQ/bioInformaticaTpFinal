@@ -8,7 +8,9 @@ def home(request):
     return render(request,"TpFinalBioApp/home.html")
 
 def map(request):
-    return render(request,"TpFinalBioApp/map.html")
+
+    markers = ['En este lugar vive Lucio', -34.7430435, -58.25890429999998];
+    return render(request,"TpFinalBioApp/map.html",{'markers': markers})
 
 def upload(request):
     if request.method == 'POST':

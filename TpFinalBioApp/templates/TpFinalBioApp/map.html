@@ -2,10 +2,8 @@
 
 {% load static %}
 
-{% block content %}
-
-<body style="margin:0px; padding:0px;" onload="initialize()">
-    <div id="map_canvas" style="width: 100%; height: 100%;" />
-</body>
-
+{% block contenido %}
+    <div id="mapa" class="mapaStyle"></div>
+    <input type="hidden" id="myVar" name="variable" value="{{ markers }}">
 {% endblock %}
+
