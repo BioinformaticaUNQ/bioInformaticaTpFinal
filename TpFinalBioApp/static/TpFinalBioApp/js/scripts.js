@@ -2,7 +2,7 @@
 $(function(){
 	
 	function initialize(){
-        var markers = JSON.stringify(document.getElementById("myVar").value);
+        var markers = document.getElementById("myVar").value;
         console.log(markers);
         var quilmes = {
             lat : -34.720634,
