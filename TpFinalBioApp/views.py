@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from TpFinalBioApp.forms import SecuenceForm
-
+import json
 # Create your views here.
 
 
@@ -9,8 +9,12 @@ def home(request):
 
 def map(request):
 
-    markers = ['En este lugar vive Lucio', -34.7430435, -58.25890429999998];
-    return render(request,"TpFinalBioApp/map.html",{'markers': markers})
+    markers = [{"titulo": 'En este lugar vive Lucio', "latitude": -34.7430435,"longitude": -58.25890429999998},
+              {"titulo": 'En este lugar vive Emiliano', "latitude": -34.719658,"longitude": -58.255364}
+            ]
+
+    json_string = json.dumps(markers)
+    return render(request,"TpFinalBioApp/map.html",{'markers': json_string})
 
 def upload(request):
     if request.method == 'POST':

@@ -283,3 +283,7 @@ ul.errorlist{
   height: 0;
   overflow: hidden;
 }
+
+.colorfont{
+  color: white;
+}
