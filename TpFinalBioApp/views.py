@@ -9,11 +9,14 @@ def home(request):
 
 def map(request):
 
-    markers = [{"titulo": 'En este lugar vive Lucio', "latitude": -34.7430435,"longitude": -58.25890429999998},
-              {"titulo": 'En este lugar vive Emiliano', "latitude": -34.719658,"longitude": -58.255364}
+    #markers = [{"titulo": 'En este lugar vive Lucio', "latitude": -34.7430435,"longitude": -58.25890429999998},
+    #          {"titulo": 'En este lugar vive Emiliano', "latitude": -34.719658,"longitude": -58.255364}]
+    #json_string = json.dumps(markers)
+    data = [('En este lugar vive Lucio', -34.7430435, -58.25890429999998,'http://i.stack.imgur.com/g672i.png'), 
+            ('En este lugar vive Emiliano', 41.197855, 16.594981,'http://i.stack.imgur.com/g672i.png')
             ]
-
-    json_string = json.dumps(markers)
+    list = [{"titulo": x[0], "latitude": x[1], "longitude": x[2],"arbol": x[3]} for x in data]
+    json_string = json.dumps(list)
     return render(request,"TpFinalBioApp/map.html",{'markers': json_string})
 
 def upload(request):
