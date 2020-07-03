@@ -1,9 +1,9 @@
 from django import forms
 
-from .models import Secuencia
+from .models import FastaFile
 
 
 class SecuenceForm(forms.ModelForm):
     class Meta:
-        model = Secuencia
-        fields = ('adress', 'length', 'content', 'file')
+        model = FastaFile
+        fields = ('file',)

@@ -9,6 +9,12 @@
     <!-- Bootstrap -->
     <link href="{%static 'TpFinalBioApp/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
+     <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
      <!-- Fonts -->
     
      <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet"> 
@@ -43,17 +49,18 @@
             <a class="nav-link text-uppercase text-expanded" href="{% url 'Map' %}">Mapa</a>
           </li>   
           <li class="nav-item {% if request.path == '/upload' %}active{% endif %} px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'Upload' %}">Subir secuencia</a>
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'Upload' %}">Subir fasta</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-
   <!-- Contenido cambiante -->
-  <div class="container">
-    <div class="row">
-      <div class=" col-md-10 mx-auto">
+    {% include 'common/messages.html' %}
+    <div class="container">
+      <div class="row">
+        <div class=" col-md-10 mx-auto">
+
         {% block contenido %}
         
         {% endblock contenido %}

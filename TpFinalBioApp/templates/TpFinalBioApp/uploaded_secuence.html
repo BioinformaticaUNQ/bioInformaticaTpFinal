@@ -1,0 +1,12 @@
+{% extends "TpFinalBioApp/index.html" %}
+
+{% load static %}
+
+{% block contenido %}
+
+    <h2>Secuencia subida</h2>
+    {% for secuence in fasta_sequences %}
+    <p> {{secuence}} </p>
+    {% endfor %}
+
+{% endblock %}

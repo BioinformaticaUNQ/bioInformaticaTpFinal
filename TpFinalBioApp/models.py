@@ -7,6 +7,10 @@ class Geolocalizador(models.Model):
     longitud = models.CharField(max_length=250)
 
 
+class FastaFile(models.Model):
+
+    file = models.FileField(upload_to= 'secuences/files/')
+
 class Secuencia(models.Model):
 
     adress = models.CharField(max_length=500)
