@@ -4,16 +4,16 @@
 {% load static %}
 
 {% block contenido %}
+    <div class="uploadedSecuence">
+        <h2 class="colorfont">Subir secuencia</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
 
-    <h2 class="colorfont">Subir secuencia</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        {{ form|crispy}}
-        <button type="submit" class="btn btn-primary">Upload file</button>
-    </form>
-    {% if url %}
-        <p>Uploaded file: <a href="{{ url }}">{{ url }}</a></p>
-    {% endif %}
-
+            {{ form|crispy}}
+            <button type="submit" class="btn btn-primary">Upload file</button>
+        </form>
+        {% if url %}
+            <p>Uploaded file: <a href="{{ url }}">{{ url }}</a></p>
+        {% endif %}
+    </div>
 {% endblock %}

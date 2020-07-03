@@ -6,13 +6,13 @@ import json
 # Create your views here.
 from TpFinalBioApp.handler import handle_uploaded_file
 from TpFinalBioApp.models import Secuence
+import gmplot
 
 
 def home(request):
     return render(request,"TpFinalBioApp/home.html")
 
 def map(request):
-
     #markers = [{"titulo": 'En este lugar vive Lucio', "latitude": -34.7430435,"longitude": -58.25890429999998},
     #          {"titulo": 'En este lugar vive Emiliano', "latitude": -34.719658,"longitude": -58.255364}]
     #json_string = json.dumps(markers)
@@ -52,3 +52,7 @@ def uploaded_secuence(request):
 
 
     return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences})
+
+def convertDirectionToCoordinates(self, direction):
+    apikey = 'AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8'
+    return gmplot.GoogleMapPlotter.geocode(direction, apikey=apikey)

@@ -9,7 +9,7 @@
     <!-- Bootstrap -->
     <link href="{%static 'TpFinalBioApp/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
-     <!-- Compiled and minified CSS -->
+    <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Compiled and minified JavaScript -->
@@ -23,6 +23,7 @@
 
     <!-- Styles -->
     <link href="{%static 'TpFinalBioApp//css/styles.css' %}" rel="stylesheet">
+    <title>{% block titulo %}Introducción a la Bioinformática{% endblock titulo %}</title>
 </head>
 
 <body>
@@ -59,7 +60,7 @@
     {% include 'common/messages.html' %}
     <div class="container">
       <div class="row">
-        <div class=" col-md-10 mx-auto uploadedSecuence">
+        <div class=" col-md-10 mx-auto">
 
         {% block contenido %}
         
@@ -72,39 +73,17 @@
   <!-- Footer -->
   <footer class="footer text-faded text-center py-5">
     <div class="container">
-      <p class="m-0">
-        <a href="#" class="link">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-          </span>
-        </a>
-        <a href="#" class="link">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-          </span>
-        </a>
-        <a href="#" class="link">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
-          </span>
-        </a>
-    </p>
-      <p class="m-0 mbt">
-        Lucio Francioni - 
+      <p class="m-0 mbt colorfont">
+        Lucio Francioni - Nahuel Pereyra - Leonardo Di Carlo
       </p>
-      <p class="m-0 mbt1">&copy; Introducción a la Bioinformática - UNQ 2020</p>
+      <p class="m-0 mbt1 colorfont">&copy; Introducción a la Bioinformática - UNQ 2020</p>
     </div>
 </footer>
 
   <!-- Bootstrap -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="{%static 'TpFinalBioApp/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8&libraries=places">
-  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8"></script>
   <script src="{%static 'TpFinalBioApp/js/scripts.js' %}"></script>
 </body>
 </html>
