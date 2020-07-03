@@ -3,10 +3,10 @@
 {% load static %}
 
 {% block contenido %}
-
-    <h2>Secuencia subida</h2>
-    {% for secuence in fasta_sequences %}
-    <p> {{secuence}} </p>
-    {% endfor %}
-
+    <div class="uploadedSecuence">
+        <h2>Secuencia subida</h2>
+        {% for secuence in fasta_sequences %}
+            <p> {{ secuence }} </p>
+        {% endfor %}
+    </div>
 {% endblock %}

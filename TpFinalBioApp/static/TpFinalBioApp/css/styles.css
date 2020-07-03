@@ -275,9 +275,18 @@ ul.errorlist{
   font-style: italic;
   color: red;
 }
-
 .mapaStyle {
   margin-top: 10px;
+  position: relative;
+  padding-bottom: 75%;
+  height: 0;
+  overflow: hidden;
+}
+
+
+.uploadedSecuence{
+  margin-top: 10px;
+  background-color: #c8cbcf;
   position: relative;
   padding-bottom: 75%;
   height: 0;
