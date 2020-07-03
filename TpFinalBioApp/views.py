@@ -1,7 +1,11 @@
+from Bio import SeqIO
+from django.contrib import messages
 from django.shortcuts import render, HttpResponse, redirect
 from TpFinalBioApp.forms import SecuenceForm
 import json
 # Create your views here.
+from TpFinalBioApp.handler import handle_uploaded_file
+from TpFinalBioApp.models import Secuence
 
 
 def home(request):
@@ -23,11 +27,28 @@ def upload(request):
     if request.method == 'POST':
         form = SecuenceForm(request.POST, request.FILES)
         if form.is_valid():
+            handle_uploaded_file(request.FILES['file'])
             form.save()
-            return redirect('Home')
+            messages.success(request, f"El archivo se ha subido correctamente")
+            return redirect('UploadedSecuence')
     else:
         form = SecuenceForm()
     return render(request,"TpFinalBioApp/upload.html", {
 
         'form': form
     })
+
+
+def uploaded_secuence(request):
+    path = 'secuences/secuence.fasta'
+    fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
+
+    for fasta in fasta_sequences:
+        fasta_to_insert = Secuence()
+        fasta_to_insert.bio_id = fasta.id
+        fasta_to_insert.content = fasta.seq
+        fasta_to_insert.length = len(fasta.seq)
+        fasta_to_insert.save()
+
+
+    return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences})
