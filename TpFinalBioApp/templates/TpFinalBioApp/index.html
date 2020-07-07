@@ -56,12 +56,12 @@
       </div>
     </div>
   </nav>
+  
   <!-- Contenido cambiante -->
-    {% include 'common/messages.html' %}
     <div class="container">
+      {% include 'common/messages.html' %}
       <div class="row">
         <div class=" col-md-10 mx-auto">
-
         {% block contenido %}
         
         {% endblock contenido %}

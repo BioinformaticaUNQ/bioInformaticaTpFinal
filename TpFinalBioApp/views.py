@@ -7,6 +7,9 @@ import json
 from TpFinalBioApp.handler import handle_uploaded_file
 from TpFinalBioApp.models import Secuence
 import gmplot
+import re
+
+
 
 
 def home(request):
@@ -29,7 +32,6 @@ def upload(request):
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'])
             form.save()
-            messages.success(request, f"El archivo se ha subido correctamente")
             return redirect('UploadedSecuence')
     else:
         form = SecuenceForm()
@@ -40,18 +42,32 @@ def upload(request):
 
 
 def uploaded_secuence(request):
+    done = True
     path = 'secuences/secuence.fasta'
     fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
+    seq_dict = {rec.id : rec.seq for rec in fasta_sequences}
+    for x, y in seq_dict.items():
+        seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*)',x)
+        if seqobj.group(1) != '' and seqobj.group(2) != '' and x.count("|") == 4 and y != '':
+            print(x)      
+        else:
+            done = False
+            break
+            
 
-    for fasta in fasta_sequences:
-        fasta_to_insert = Secuence()
-        fasta_to_insert.bio_id = fasta.id
-        fasta_to_insert.content = fasta.seq
-        fasta_to_insert.length = len(fasta.seq)
-        fasta_to_insert.save()
-
-
-    return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences})
+    if done:
+        for fasta in fasta_sequences:
+            fasta_to_insert = Secuence()
+            fasta_to_insert.bio_id = fasta.id
+            fasta_to_insert.content = fasta.seq
+            fasta_to_insert.length = len(fasta.seq)
+            fasta_to_insert.save()
+        messages.success(request, f"El archivo se ha subido correctamente")
+        return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences})
+    else:
+        messages.error(request, f"El archivo no es correcto")
+        return redirect('Home')
+        
 
 def convertDirectionToCoordinates(self, direction):
     apikey = 'AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8'
