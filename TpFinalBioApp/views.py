@@ -1,15 +1,15 @@
+import json
+import re
+
+import gmplot
 from Bio import SeqIO
 from django.contrib import messages
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, redirect
+
 from TpFinalBioApp.forms import SecuenceForm
-import json
 # Create your views here.
 from TpFinalBioApp.handler import handle_uploaded_file
 from TpFinalBioApp.models import Secuence
-import gmplot
-import re
-
-
 
 
 def home(request):
@@ -43,17 +43,35 @@ def upload(request):
 
 def uploaded_secuence(request):
     done = True
+    error_message = ''
     path = 'secuences/secuence.fasta'
+    file = open(path, 'r')
+
+    if not file.readlines()[0].startswith('>'):
+        error_message = 'la primera linea del archivo no inicia como un fasta >'
+        messages.error(request, f"El archivo no es correcto. " + error_message)
+        return redirect('Home')
+
     fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
     seq_dict = {rec.id : rec.seq for rec in fasta_sequences}
     for x, y in seq_dict.items():
         seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*)',x)
-        if seqobj.group(1) != '' and seqobj.group(2) != '' and x.count("|") == 4 and y != '':
-            print(x)      
+        if seqobj is None:
+            error_message = 'El header de ' + x + ' no cumple con el formato fasta requerido.'
+            done = False
+            break
+        if y == '':
+            error_message = 'El header ' + x + ' no contiene secuencia.'
+            done = False
+            break
+        if seqobj.group(1) != '' and seqobj.group(2) != '' and x.count("|") == 4:
+            print(seqobj.group(1))
+            print(seqobj.group(2))
+            print(x)
         else:
             done = False
             break
-            
+
 
     if done:
         for fasta in fasta_sequences:
@@ -65,7 +83,7 @@ def uploaded_secuence(request):
         messages.success(request, f"El archivo se ha subido correctamente")
         return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences})
     else:
-        messages.error(request, f"El archivo no es correcto")
+        messages.error(request, f"El archivo no es correcto. " + error_message)
         return redirect('Home')
         
 
