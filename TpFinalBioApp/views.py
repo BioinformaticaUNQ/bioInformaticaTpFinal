@@ -13,7 +13,7 @@ from Bio.Alphabet.IUPAC import *
 
 from TpFinalBioApp.forms import SecuenceForm
 # Create your views here.
-from TpFinalBioApp.handler import handle_uploaded_file
+from TpFinalBioApp.handler import handle_uploaded_file, SequenceHandler
 from TpFinalBioApp.models import Secuence
 
 
@@ -46,62 +46,16 @@ def upload(request):
     })
 
 
-def secuencia_alineada(file):
-    return True
-
 
 def uploaded_secuence(request):
-    done = True
-    error_message = ''
     path = 'secuences/secuence.fasta'
-    file = open(path, 'r')
-    is_aligned = False
 
-    if not file.readlines()[0].startswith('>'):
-        error_message = 'la primera linea del archivo no inicia como un fasta >'
-        messages.error(request, f"El archivo no es correcto. " + error_message)
-        return redirect('Home')
-    else:
-        is_aligned = secuencia_alineada(file)
+    handler = SequenceHandler()
+    handler.validate_sequences(path)
 
     fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
-    seq_dict = {rec.id : rec.seq for rec in fasta_sequences}
-    for x, y in seq_dict.items():
-        seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*)',x)
-        if seqobj is None:
-            error_message = 'El header de ' + x + ' no cumple con el formato fasta requerido.'
-            done = False
-            break
-        if y == '':
-            error_message = 'El header ' + x + ' no contiene secuencia.'
-            done = False
-            break
-        if seqobj.group(1) != '' and seqobj.group(2) != '' and x.count("|") == 4:
-            print('')
-            if not validate(str(y)):
-                error_message = 'El contenido de la secuencia no es ADN'
-                done = False
-                break
-            else:
-                # Busqueda de Accesionns en GenBank
-                Entrez.email="12345BioInf@ejemplo.com"
-                handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="text")
-                record = SeqIO.read(handle, "genbank")
-                handle.close()
-                print(record.id)
-                print(record.name)
-                print(record.description)
 
-                # alineamiento
-                if is_aligned:
-                    print(seqobj.group(1))
-                    # print(seqobj.group(2))
-        else:
-            done = False
-            break
-
-    fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
-    if done:
+    if not handler.has_errors:
         for fasta in fasta_sequences:
             fasta_to_insert = Secuence()
             fasta_to_insert.bio_id = fasta.id
@@ -110,45 +64,19 @@ def uploaded_secuence(request):
             fasta_to_insert.save()
 
         clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
-        clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path)
+        clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA')
         assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
         stdout, stderr = clustalw_cline()
         alignment = AlignIO.read('secuences/secuence.aln', "clustal")
-        print(alignment)
+        print('alineamiento \n' + str(alignment))
 
 
         messages.success(request, f"El archivo se ha subido correctamente")
         return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences})
     else:
-        messages.error(request, f"El archivo no es correcto. " + error_message)
+        messages.error(request, f"El archivo no es correcto. " + handler.error_message)
         return redirect('Home')
-        
 
-def validate(seq, alphabet='dna'):
-    """
-    Check that a sequence only contains values from an alphabet
-
-    >>> seq1 = 'acgatGAGGCATTtagcgatgcgatc'       # True for dna and protein
-    >>> seq2 = 'FGFAGGAGFGAFFF'                   # False for dna, True for protein
-    >>> seq3 = 'acacac '                          # should return False (a space is not a nucleotide)
-    >>> validate(seq1, 'dna')
-    True
-    >>> validate(seq2, 'dna')
-    False
-    >>> validate(seq2, 'protein')
-    True
-    >>> validate(seq3, 'dna')
-    False
-
-    """
-    alphabets = {'dna': re.compile('^[acgtn]*$', re.I),
-             'protein': re.compile('^[acdefghiklmnpqrstvwy]*$', re.I)}
-
-
-    if alphabets[alphabet].search(seq) is not None:
-         return True
-    else:
-         return False
 
 def convertDirectionToCoordinates(self, direction):
     apikey = 'AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8'
