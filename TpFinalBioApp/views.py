@@ -5,7 +5,7 @@ from subprocess import Popen, PIPE
 
 from Bio.Align.Applications import ClustalwCommandline
 import gmplot
-from Bio import SeqIO, AlignIO
+from Bio import SeqIO, AlignIO, Entrez
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from Bio.Alphabet.IUPAC import *
@@ -83,6 +83,15 @@ def uploaded_secuence(request):
                 done = False
                 break
             else:
+                # Busqueda de Accesionns en GenBank
+                Entrez.email="12345BioInf@ejemplo.com"
+                handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="text")
+                record = SeqIO.read(handle, "genbank")
+                handle.close()
+                print(record.id)
+                print(record.name)
+                print(record.description)
+
                 # alineamiento
                 if is_aligned:
                     print(seqobj.group(1))
