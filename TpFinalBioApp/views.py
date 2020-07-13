@@ -1,10 +1,11 @@
 import json
 import os
 import re
-from django.core import serializers
-from subprocess import Popen, PIPE
 import platform
 import subprocess
+from django.core import serializers
+from subprocess import Popen, PIPE
+
 
 import gmplot
 from Bio import SeqIO, AlignIO
