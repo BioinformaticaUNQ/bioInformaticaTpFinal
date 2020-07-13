@@ -299,5 +299,16 @@ fabric.properties
 # pytype static type analyzer
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python,django
-/secuences/
+/secuences/files
 /.idea/
+/secuences/secuence.aln
+/secuences/secuence.dnd
+/secuences/secuence.fasta
+/secuences/secuence.aln.bionj
+/secuences/secuence.aln.ckp.gz
+/secuences/secuence.aln.contree
+/secuences/secuence.aln.iqtree
+/secuences/secuence.aln.mldist
+/secuences/secuence.aln.model.gz
+/secuences/secuence.aln.splits.nex
+/secuences/secuence.aln.treefile
