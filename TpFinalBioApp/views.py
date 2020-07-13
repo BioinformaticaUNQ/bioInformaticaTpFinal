@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from django.core import serializers
 from subprocess import Popen, PIPE
 
 from Bio.Align.Applications import ClustalwCommandline
@@ -21,15 +22,8 @@ def home(request):
     return render(request,"TpFinalBioApp/home.html")
 
 def map(request):
-    #markers = [{"titulo": 'En este lugar vive Lucio', "latitude": -34.7430435,"longitude": -58.25890429999998},
-    #          {"titulo": 'En este lugar vive Emiliano', "latitude": -34.719658,"longitude": -58.255364}]
-    #json_string = json.dumps(markers)
-    data = [('En este lugar vive Lucio', -34.7430435, -58.25890429999998,'http://i.stack.imgur.com/g672i.png'), 
-            ('En este lugar vive Emiliano', 41.197855, 16.594981,'http://i.stack.imgur.com/g672i.png')
-            ]
-    list = [{"titulo": x[0], "latitude": x[1], "longitude": x[2],"arbol": x[3]} for x in data]
-    json_string = json.dumps(list)
-    return render(request,"TpFinalBioApp/map.html",{'markers': json_string})
+    data = serializers.serialize('json', Secuence.objects.all(), fields=('latitud','longitud'))
+    return render(request,"TpFinalBioApp/map.html",{'markers': data})
 
 def upload(request):
     if request.method == 'POST':
@@ -56,11 +50,15 @@ def uploaded_secuence(request):
     fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
 
     if not handler.has_errors:
-        for fasta in fasta_sequences:
+        for fasta in handler.dic_data:
+            coordenadas = convertDirectionToCoordinates(fasta['loc'])
             fasta_to_insert = Secuence()
-            fasta_to_insert.bio_id = fasta.id
-            fasta_to_insert.content = fasta.seq
-            fasta_to_insert.length = len(fasta.seq)
+            fasta_to_insert.address = fasta['loc']
+            fasta_to_insert.latitud = coordenadas[0]
+            fasta_to_insert.longitud = coordenadas[1]
+            fasta_to_insert.bio_id = fasta['gb']
+            fasta_to_insert.content = fasta['seq']
+            fasta_to_insert.length = len(fasta['seq'])
             fasta_to_insert.save()
 
         clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"

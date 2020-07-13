@@ -14,6 +14,7 @@ class SequenceHandler():
     is_aligned = False
     _error_message = ''
     _has_errors = False
+    _dic_data = []
 
     def validate_sequences(self, path):
 
@@ -28,7 +29,7 @@ class SequenceHandler():
         fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
         seq_dict = {rec.id: rec.seq for rec in fasta_sequences}
         for x, y in seq_dict.items():
-            seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*)', x)
+            seqobj = re.match(r'gi.(\d*).gb.(\w*.\d*).loc.(\s*(\w*))', x)
             if seqobj is None:
                 self._error_message = 'El header de ' + x + ' no cumple con el formato fasta requerido.'
                 self._has_errors = True
@@ -37,8 +38,9 @@ class SequenceHandler():
                 self._error_message = 'El header ' + x + ' no contiene secuencia.'
                 self._has_errors = True
                 break
-            if seqobj.group(1) != '' and seqobj.group(2) != '' and x.count("|") == 4:
-
+            if seqobj.group(1) != '' and seqobj.group(2) and seqobj.group(3) != '' and x.count("|") == 5:
+                dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc':seqobj.group(3), 'seq': y}
+                self._dic_data.append(dic)
                 if not self.validate(str(y)):
                     self._error_message = 'El contenido de la secuencia no es ADN'
                     self._has_errors = True
@@ -49,9 +51,9 @@ class SequenceHandler():
                     handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="text")
                     record = SeqIO.read(handle, "genbank")
                     handle.close()
-                    print(record.id)
-                    print(record.name)
-                    print(record.description)
+                    #print(record.id)
+                    #print(record.name)
+                    #print(record.description)
 
                     # alineamiento
                     if self.is_aligned:
@@ -96,3 +98,7 @@ class SequenceHandler():
     @property
     def error_message(self):
         return self._error_message
+
+    @property
+    def dic_data(self):
+        return self._dic_data

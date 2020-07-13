@@ -18,15 +18,15 @@ $(function(){
         var infowindow = new google.maps.InfoWindow();
         var marker, i;
         for (i = 0; i < markers.length; i++) {
-            
+            console.log(markers[i]['fields'])
             marker = new google.maps.Marker({
-                position: new google.maps.LatLng(markers[i].latitude, markers[i].longitude),
+                position: new google.maps.LatLng(markers[i]['fields'].latitud, markers[i]['fields'].longitud),
                 map: map,
                 draggable: false
             });
             google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-                infowindow.setContent("<div style='padding-bottom: 12px;'>" + markers[i].titulo + "</div><div ><img style='display:block;margin: auto;' src=" + markers[i].arbol + "></div>");
+                infowindow.setContent("hola");
                 infowindow.open(map, marker);
             }
             })(marker, i));
