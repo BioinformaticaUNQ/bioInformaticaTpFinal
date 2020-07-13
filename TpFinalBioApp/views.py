@@ -83,6 +83,6 @@ def uploaded_secuence(request):
         return redirect('Home')
 
 
-def convertDirectionToCoordinates(self, direction):
+def convertDirectionToCoordinates(direction):
     apikey = 'AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8'
     return gmplot.GoogleMapPlotter.geocode(direction, apikey=apikey)
