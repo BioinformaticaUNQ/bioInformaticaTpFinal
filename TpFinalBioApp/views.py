@@ -1,13 +1,10 @@
 import json
 import os
-<<<<<<< HEAD
 import re
 from django.core import serializers
 from subprocess import Popen, PIPE
-=======
 import platform
 import subprocess
->>>>>>> b20dda35eca5a3ebd166dc3b974fd557006cf40e
 
 import gmplot
 from Bio import SeqIO, AlignIO
@@ -63,7 +60,7 @@ def uploaded_secuence(request):
             fasta_to_insert.content = fasta['seq']
             fasta_to_insert.length = len(fasta['seq'])
             fasta_to_insert.save()
-            
+
         clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
         clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='CLUSTAL')
         assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
