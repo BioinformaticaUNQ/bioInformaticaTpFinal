@@ -3,6 +3,21 @@
 {% load static %}
 
 {% block contenido %}
+    <div class="uploadedSecuence">
+        <h4 style="text-align: center;">Informacion de tus Secuencias</h2>
+        <table class="table table-sm">
+            <tr>
+                <th>Latitud</th>
+                <th>Longitud</th>
+            </tr>
+            {% for m in dataTable %}
+            <tr>
+                <th> {{ m.fields.latitud}}</th>
+                <th> {{ m.fields.longitud}}</th>
+            </tr> 
+            {% endfor %}
+        </table>
+    </div>
     <div id="mapa" class="mapaStyle"></div>
     <input type="hidden" id="myVar" name="variable" value="{{ markers }}">
 

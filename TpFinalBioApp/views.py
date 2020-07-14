@@ -25,7 +25,8 @@ def home(request):
 
 def map(request):
     data = serializers.serialize('json', Secuence.objects.all(), fields=('latitud','longitud'))
-    return render(request,"TpFinalBioApp/map.html",{'markers': data})
+    json_dict = json.loads(data)
+    return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict})
 
 def upload(request):
     if request.method == 'POST':

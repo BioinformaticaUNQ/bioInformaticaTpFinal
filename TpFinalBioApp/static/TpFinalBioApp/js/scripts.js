@@ -18,7 +18,6 @@ $(function(){
         var infowindow = new google.maps.InfoWindow();
         var marker, i;
         for (i = 0; i < markers.length; i++) {
-            console.log(markers[i]['fields'])
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(markers[i]['fields'].latitud, markers[i]['fields'].longitud),
                 map: map,
