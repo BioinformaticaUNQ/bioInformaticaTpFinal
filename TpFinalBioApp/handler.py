@@ -27,9 +27,9 @@ class SequenceHandler():
             self.is_aligned = self.secuencia_alineada(file)
 
         fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
-        seq_dict = {rec.id: rec.seq for rec in fasta_sequences}
+        seq_dict = {rec.description : rec.seq for rec in fasta_sequences}
         for x, y in seq_dict.items():
-            seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*)', x)
+            seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*).loc.(.*)', x)
             if seqobj is None:
                 self._error_message = 'El header de ' + x + ' no cumple con el formato fasta requerido.'
                 self._has_errors = True
@@ -38,7 +38,7 @@ class SequenceHandler():
                 self._error_message = 'El header ' + x + ' no contiene secuencia.'
                 self._has_errors = True
                 break
-            if seqobj.group(1) != '' and seqobj.group(2) and x.count("|") == 4:
+            if seqobj.group(1) != '' and seqobj.group(2) and seqobj.group(3) and x.count("|") == 5:
                 
                 if not self.validate(str(y)):
                     self._error_message = 'El contenido de la secuencia no es ADN'
@@ -57,7 +57,7 @@ class SequenceHandler():
                     #print(record.id)
                     #print(record.name)
                     #print(record.description)
-                    dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': loc, 'seq': y}
+                    dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y}
                     self._dic_data.append(dic)
 
                     # alineamiento
