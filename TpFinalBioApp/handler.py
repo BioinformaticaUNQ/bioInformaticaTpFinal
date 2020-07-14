@@ -38,7 +38,7 @@ class SequenceHandler():
                 self._error_message = 'El header ' + x + ' no contiene secuencia.'
                 self._has_errors = True
                 break
-            if seqobj.group(1) != '' and seqobj.group(2) and x.count("|") == 5:
+            if seqobj.group(1) != '' and seqobj.group(2) and x.count("|") == 4:
                 
                 if not self.validate(str(y)):
                     self._error_message = 'El contenido de la secuencia no es ADN'
@@ -49,12 +49,15 @@ class SequenceHandler():
                     Entrez.email = "12345BioInf@ejemplo.com"
                     handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
                     record = Entrez.read(handle)
-                    print(record[0]['GBReference_journal'])
+                    loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
+                    if not 'Submitted' in loc:
+                        loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
+
                     handle.close()
                     #print(record.id)
                     #print(record.name)
                     #print(record.description)
-                    dic = {'gi':seqobj.group(1),'gb': seqobj.group(2), 'seq': y}
+                    dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': loc, 'seq': y}
                     self._dic_data.append(dic)
 
                     # alineamiento

@@ -12,6 +12,7 @@ from Bio import SeqIO, AlignIO
 from Bio.Align.Applications import ClustalwCommandline
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from ete3 import Tree
 
 from TpFinalBioApp.forms import SecuenceForm
 # Create your views here.
@@ -77,12 +78,24 @@ def uploaded_secuence(request):
 
         messages.success(request, f"El archivo se ha subido correctamente")
         print(platform.system())
-        return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences})
+        log_file = open('secuences/secuence.aln.log', 'r')
+        log_tree = log_file.read().splitlines(False)
+
+        t = Tree("secuences/secuence.aln.treefile")
+        t.render("TpFinalBioApp/static/TpFinalBioApp/img/myTree.png", w=183, units="mm")
+        # t.show()
+        print(t)
+
+        return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences, 'log': log_tree})
     else:
         messages.error(request, f"El archivo no es correcto. " + handler.error_message)
         return redirect('Home')
 
 
 def convertDirectionToCoordinates(direction):
+    try:
+        print(x)
+    except:
+        print("An exception occurred")
     apikey = 'AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8'
     return gmplot.GoogleMapPlotter.geocode(direction, apikey=apikey)
