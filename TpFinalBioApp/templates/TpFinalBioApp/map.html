@@ -3,20 +3,60 @@
 {% load static %}
 
 {% block contenido %}
+    <style>
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        }
+        
+        th, td {
+        text-align: left;
+        padding: 8px;
+        }
+        
+        tr:nth-child(even){background-color: #f2f2f2}
+        
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        td{
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #accordion .acc-body{
+            display : none;
+         }
+         /** This class will show the body if it has "active" parent class. "active" class will be added to panel div **/
+         #accordion .active .acc-body {
+            display : block;
+         }
+    </style>
     <div class="uploadedSecuence">
         <h4 style="text-align: center;">Informacion de tus Secuencias</h2>
-        <table class="table table-sm">
-            <tr>
-                <th>Latitud</th>
-                <th>Longitud</th>
-            </tr>
-            {% for m in dataTable %}
-            <tr>
-                <th> {{ m.fields.latitud}}</th>
-                <th> {{ m.fields.longitud}}</th>
-            </tr> 
-            {% endfor %}
-        </table>
+        <div class="wrapper">
+            <button class="accordion"><i class="fa fa-info-circle"></i>Ver Informacion</button>
+            <div class="panel">
+                <table>
+                    <tr>
+                        <th>Codigo de GBANK</th>
+                        <th>Direccion</th>
+                    </tr>
+                    {% for m in dataTable %}
+                    <tr>
+                        <td> {{ m.fields.bio_id}}</td>
+                        <td> {{ m.fields.address}}</td>
+                    </tr> 
+                    {% endfor %}
+                </table>
+            </div> 
+        </div>
+        
+        
     </div>
     <div id="mapa" class="mapaStyle"></div>
     <input type="hidden" id="myVar" name="variable" value="{{ markers }}">

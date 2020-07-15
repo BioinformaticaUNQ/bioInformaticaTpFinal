@@ -4,7 +4,9 @@ $(function(){
 	function initialize(){
         var m = document.getElementById("myVar").value;
         var markers = JSON.parse(m);
-        var latlngbounds = new google.maps.LatLngBounds();
+        if(markers.length > 0){
+            var latlngbounds = new google.maps.LatLngBounds();
+        }
         var quilmes = {
             lat : -34.720634,
             lng : -58.254605
@@ -12,7 +14,7 @@ $(function(){
 		var map = new google.maps.Map(document.getElementById('mapa'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             center : quilmes,
-            zoom : 12
+            zoom : 8
         });
 
         var infowindow = new google.maps.InfoWindow();
@@ -25,15 +27,38 @@ $(function(){
             });
             google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-                infowindow.setContent("hola");
+                infowindow.setContent(markers[i]['fields'].address);
                 infowindow.open(map, marker);
             }
             })(marker, i));
             latlngbounds.extend(marker.position);
         }
-        var bounds = new google.maps.LatLngBounds();
-        map.setCenter(latlngbounds.getCenter());
-        map.fitBounds(latlngbounds);
+        if(markers.length > 0){
+            map.setCenter(latlngbounds.getCenter());
+            map.fitBounds(latlngbounds);
+        }
+        
     }
     google.maps.event.addDomListener(window, 'load', initialize());
+});
+
+$(function() {
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            /* Toggle between adding and removing the "active" class,
+            to highlight the button that controls the panel */
+            this.classList.toggle("active");
+
+            /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+            panel.style.display = "none";
+            } else {
+            panel.style.display = "block";
+            }
+        });
+    }
 });

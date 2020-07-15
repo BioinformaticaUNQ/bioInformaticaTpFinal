@@ -24,7 +24,7 @@ def home(request):
     return render(request,"TpFinalBioApp/home.html")
 
 def map(request):
-    data = serializers.serialize('json', Secuence.objects.all(), fields=('latitud','longitud'))
+    data = serializers.serialize('json', Secuence.objects.all(), fields=('latitud','longitud','bio_id','address'))
     json_dict = json.loads(data)
     return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict})
 
@@ -64,7 +64,8 @@ def uploaded_secuence(request):
             fasta_to_insert.length = len(fasta['seq'])
             fasta_to_insert.save()
 
-        clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
+        #clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
+        clustalw_exe = r"/usr/bin/clustalw"
         clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='CLUSTAL')
         assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
         stdout, stderr = clustalw_cline()
@@ -72,10 +73,10 @@ def uploaded_secuence(request):
         print('alineamiento \n' + str(alignment))
 
 
-        cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', 'secuences/scripts/armado del arbol.ps1']
-        ec = subprocess.call(cmd)
-        print("Powershell returned: {0:d}".format(ec))
-
+        #cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', 'secuences/scripts/armado del arbol.ps1']
+        #ec = subprocess.call(cmd)
+        #print("Powershell returned: {0:d}".format(ec))
+        os.system('./secuences/scripts/armado del arbol.sh')
 
         messages.success(request, f"El archivo se ha subido correctamente")
         print(platform.system())

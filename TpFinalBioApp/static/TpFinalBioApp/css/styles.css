@@ -286,8 +286,31 @@ ul.errorlist{
   margin-top: 15px;
   background-color: #c8cbcf;
   padding-bottom: 15px;
+  text-align: center;
 }
 
 .colorfont{
   color: white;
 }
+
+.accordion {
+  background-color: #26a69a; 
+  border: none; 
+  color: white; 
+  padding: 12px 16px; 
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.panel {
+  padding-top: 12px;
+  display: none;
+  overflow: hidden;
+}
+
+.wrapper {
+  text-align: center;
+}
+
+
