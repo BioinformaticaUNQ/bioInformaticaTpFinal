@@ -18,6 +18,7 @@ class Secuence(models.Model):
     latitud = models.CharField(max_length=20)
     longitud = models.CharField(max_length=20)
     length = models.IntegerField()
+    upload_id = models.IntegerField()
     content = models.TextField()
 
     def __str__(self):

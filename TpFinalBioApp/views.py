@@ -1,8 +1,11 @@
+import calendar
 import json
 import os
 import re
 import platform
 import subprocess
+import time
+
 from django.core import serializers
 from subprocess import Popen, PIPE
 
@@ -12,7 +15,7 @@ from Bio import SeqIO, AlignIO
 from Bio.Align.Applications import ClustalwCommandline
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from ete3 import Tree
+from ete3 import Tree, PhyloTree
 
 from TpFinalBioApp.forms import SecuenceForm
 # Create your views here.
@@ -23,8 +26,8 @@ from TpFinalBioApp.models import Secuence
 def home(request):
     return render(request,"TpFinalBioApp/home.html")
 
-def map(request):
-    data = serializers.serialize('json', Secuence.objects.all(), fields=('latitud','longitud','bio_id','address'))
+def map(request, upload_id):
+    data = serializers.serialize('json', Secuence.objects.filter(upload_id = upload_id), fields=('latitud','longitud','bio_id','address'))
     json_dict = json.loads(data)
     return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict})
 
@@ -50,7 +53,7 @@ def uploaded_secuence(request):
     handler = SequenceHandler()
     handler.validate_sequences(path)
 
-    fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
+    upload_id = calendar.timegm(time.gmtime())
 
     if not handler.has_errors:
         for fasta in handler.dic_data:
@@ -62,42 +65,39 @@ def uploaded_secuence(request):
             fasta_to_insert.bio_id = fasta['gb']
             fasta_to_insert.content = fasta['seq']
             fasta_to_insert.length = len(fasta['seq'])
+            fasta_to_insert.upload_id = upload_id
             fasta_to_insert.save()
 
-        #clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
-        clustalw_exe = r"/usr/bin/clustalw"
-        clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='CLUSTAL')
+        clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
+        # clustalw_exe = r"/usr/bin/clustalw"
+        clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
         assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
         stdout, stderr = clustalw_cline()
-        alignment = AlignIO.read('secuences/secuence.aln', "clustal")
+        alignment = AlignIO.read('secuences/secuence.fasta_aln.fasta', "fasta")
         print('alineamiento \n' + str(alignment))
 
 
-        #cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', 'secuences/scripts/armado del arbol.ps1']
-        #ec = subprocess.call(cmd)
+        cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', 'secuences/scripts/armado del arbol.ps1']
+        ec = subprocess.call(cmd)
         #print("Powershell returned: {0:d}".format(ec))
-        os.system('./secuences/scripts/armado del arbol.sh')
+        # os.system('./secuences/scripts/armado del arbol.sh')
 
         messages.success(request, f"El archivo se ha subido correctamente")
         print(platform.system())
-        log_file = open('secuences/secuence.aln.log', 'r')
+        log_file = open('secuences/secuence.fasta_aln.fasta.log', 'r')
         log_tree = log_file.read().splitlines(False)
 
-        t = Tree("secuences/secuence.aln.treefile")
-        t.render("TpFinalBioApp/static/TpFinalBioApp/img/myTree.png", w=183, units="mm")
-        # t.show()
+        t = PhyloTree("secuences/secuence.fasta_aln.fasta.treefile")
+        t.link_to_alignment('secuences/secuence.fasta_aln.fasta')
+        t.render("TpFinalBioApp/static/TpFinalBioApp/img/myTree.png", w=300, units="mm")
         print(t)
 
-        return render(request, "TpFinalBioApp/uploaded_secuence.html", {'fasta_sequences': fasta_sequences, 'log': log_tree})
+        return redirect('Map', upload_id)
     else:
         messages.error(request, f"El archivo no es correcto. " + handler.error_message)
         return redirect('Home')
 
 
 def convertDirectionToCoordinates(direction):
-    try:
-        print(x)
-    except:
-        print("An exception occurred")
     apikey = 'AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8'
     return gmplot.GoogleMapPlotter.geocode(direction, apikey=apikey)

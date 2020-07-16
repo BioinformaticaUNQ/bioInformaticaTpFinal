@@ -312,3 +312,12 @@ fabric.properties
 /secuences/secuence.aln.model.gz
 /secuences/secuence.aln.splits.nex
 /secuences/secuence.aln.treefile
+/secuences/secuence.fasta_aln.fasta
+/secuences/secuence.fasta_aln.fasta.bionj
+/secuences/secuence.fasta_aln.fasta.ckp.gz
+/secuences/secuence.fasta_aln.fasta.contree
+/secuences/secuence.fasta_aln.fasta.iqtree
+/secuences/secuence.fasta_aln.fasta.mldist
+/secuences/secuence.fasta_aln.fasta.model.gz
+/secuences/secuence.fasta_aln.fasta.splits.nex
+/secuences/secuence.fasta_aln.fasta.treefile

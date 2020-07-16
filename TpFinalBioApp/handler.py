@@ -41,22 +41,24 @@ class SequenceHandler():
             if seqobj.group(1) != '' and seqobj.group(2) and seqobj.group(3) and x.count("|") == 5:
                 
                 if not self.validate(str(y)):
-                    self._error_message = 'El contenido de la secuencia no es ADN'
+                    self._error_message = 'El contenido de la secuencia no es ADN' + 'sec: ' + x
                     self._has_errors = True
                     break
                 else:
                     # Busqueda de Accesionns en GenBank
-                    Entrez.email = "12345BioInf@ejemplo.com"
-                    handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
-                    record = Entrez.read(handle)
-                    loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
-                    if not 'Submitted' in loc:
-                        loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
-
-                    handle.close()
+                    # Entrez.email = "12345BioInf@ejemplo.com"
+                    # handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
+                    # record = Entrez.read(handle)
+                    # loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
+                    # if not 'Submitted' in loc:
+                    #     loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
+                    #
+                    # handle.close()
                     #print(record.id)
                     #print(record.name)
-                    #print(record.description)
+                    # print(record)
+                    # description = (record[0]['GBSeq_source'])
+                    # dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y, 'description': description}
                     dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y}
                     self._dic_data.append(dic)
 
