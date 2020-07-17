@@ -109,3 +109,6 @@ class SequenceHandler():
     @property
     def dic_data(self):
         return self._dic_data
+
+    def clean_data(self):
+        self._dic_data.clear()

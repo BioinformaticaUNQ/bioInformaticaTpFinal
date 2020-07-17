@@ -68,6 +68,7 @@ def uploaded_secuence(request):
             fasta_to_insert.upload_id = upload_id
             fasta_to_insert.save()
 
+        handler.clean_data()
         clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
         # clustalw_exe = r"/usr/bin/clustalw"
         clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
@@ -91,6 +92,7 @@ def uploaded_secuence(request):
         t.link_to_alignment('secuences/secuence.fasta_aln.fasta')
         t.render("TpFinalBioApp/static/TpFinalBioApp/img/myTree.png", w=300, units="mm")
         print(t)
+        os.remove("secuences/secuence.fasta_aln.fasta.model.gz")
 
         return redirect('Map', upload_id)
     else:
