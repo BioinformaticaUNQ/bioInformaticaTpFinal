@@ -14,6 +14,7 @@ from ete3 import PhyloTree
 from TpFinalBioApp.forms import SecuenceForm
 from TpFinalBioApp.handler import handle_uploaded_file, SequenceHandler
 from TpFinalBioApp.models import Secuence
+from django.conf import settings
 
 
 def home(request):
@@ -68,7 +69,8 @@ def uploaded_secuence(request):
         handler.clean_data()
         
         if platform.system() == 'Linux':
-            clustalw_exe = r"/usr/bin/clustalw"
+            print(settings.CLUSTAL_PATH)
+            clustalw_exe = settings.CLUSTAL_PATH
             clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
             assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
             stdout, stderr = clustalw_cline()
@@ -99,5 +101,5 @@ def uploaded_secuence(request):
 
 
 def convertDirectionToCoordinates(direction):
-    apikey = 'AIzaSyAqJwGQtaGHY5Bm56dMzfcRgRRQ9uCn8G8'
+    apikey = settings.GOOGLE_API_KEY
     return gmplot.GoogleMapPlotter.geocode(direction, apikey=apikey)

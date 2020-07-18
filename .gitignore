@@ -323,3 +323,4 @@ fabric.properties
 /secuences/secuence.fasta_aln.fasta.treefile
 
 /TpFinalBioApp/static/TpFinalBioApp/img/output
+.env

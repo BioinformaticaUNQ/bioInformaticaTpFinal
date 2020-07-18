@@ -11,7 +11,16 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+CLUSTAL_PATH = env("CLUSTAL_PATH")
+IQTREE_PATH = env("IQTREE_PATH")
+ALIGN_FASTA_PATH = env("ALIGN_FASTA_PATH")
+GOOGLE_API_KEY = env("GOOGLE_API_KEY")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
