@@ -5,17 +5,19 @@
 {% block contenido %}
     <style>
         table {
-        border-collapse: collapse;
-        width: 100%;
+            border-collapse: collapse;
+            width: 100%;
         }
-        
+
         th, td {
-        text-align: left;
-        padding: 8px;
+            text-align: left;
+            padding: 8px;
         }
-        
-        tr:nth-child(even){background-color: #f2f2f2}
-        
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
         th {
             background-color: #4CAF50;
             color: white;
@@ -23,52 +25,58 @@
             vertical-align: middle;
         }
 
-        td{
+        td {
             text-align: center;
             vertical-align: middle;
         }
 
-        #accordion .acc-body{
-            display : none;
-         }
-         /** This class will show the body if it has "active" parent class. "active" class will be added to panel div **/
-         #accordion .active .acc-body {
-            display : block;
-         }
+        #accordion .acc-body {
+            display: none;
+        }
+
+        /** This class will show the body if it has "active" parent class. "active" class will be added to panel div **/
+        #accordion .active .acc-body {
+            display: block;
+        }
     </style>
     <div class="uploadedSecuence">
-        <h4 style="text-align: center;">Informacion de tus Secuencias</h4>
-        <div class="wrapper">
-            <button class="accordion"><i class="fa fa-info-circle"></i>Ver Informacion</button>
-            <div class="panel">
-                <table>
-                    <tr>
-                        <th>Codigo de GBANK</th>
-                        <th>Direccion</th>
-                    </tr>
-                    {% for m in dataTable %}
-                    <tr>
-                        <td> {{ m.fields.bio_id}}</td>
-                        <td> {{ m.fields.address}}</td>
-                    </tr> 
-                    {% endfor %}
-                </table>
-            </div> 
+        <h4 style="text-align: center;">Datos adicionales</h4>
+        <div class="row">
+            <div class="wrapper column">
+                <button class="accordion"><i class="fa fa-info-circle"> </i>Ver Informacion de las secuencias</button>
+                <div class="panel">
+                    <table>
+                        <tr>
+                            <th>Codigo de GBANK</th>
+                            <th>Direccion</th>
+                        </tr>
+                        {% for m in dataTable %}
+                            <tr>
+                                <td> {{ m.fields.bio_id }}</td>
+                                <td> {{ m.fields.address }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="wrapper column">
+                <button class="accordion"><i class="fa fa-info-circle"></i>Ver parametros de corrida de IQ-TREE</button>
+                <div class="panel">
+                    <p> {{ log }} </p>
+                </div>
+            </div>
+
         </div>
-        
-        
     </div>
-    <div id="mapa" class="mapaStyle">
 
-        <img src="../../static/TpFinalBioApp/img/myTree.png" alt="">
 
-    </div>
-    <div class="mapaStyle">
-
-        <img src="../../static/TpFinalBioApp/img/myTree.png" alt="">
-
-    </div>
     <input type="hidden" id="myVar" name="variable" value="{{ markers }}">
+
+        <div id="mapa" class="mapaStyle"></div>
+
+        <div class="mapaStyle">
+            <img src="{{img}}"  alt="">
+        </div>
 
 
 {% endblock %}

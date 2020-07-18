@@ -1,24 +1,17 @@
 import calendar
 import json
 import os
-import re
 import platform
 import subprocess
 import time
-
-from django.core import serializers
-from subprocess import Popen, PIPE
-
-
 import gmplot
-from Bio import SeqIO, AlignIO
+from Bio import AlignIO
 from Bio.Align.Applications import ClustalwCommandline
 from django.contrib import messages
+from django.core import serializers
 from django.shortcuts import render, redirect
-from ete3 import Tree, PhyloTree
-
+from ete3 import PhyloTree
 from TpFinalBioApp.forms import SecuenceForm
-# Create your views here.
 from TpFinalBioApp.handler import handle_uploaded_file, SequenceHandler
 from TpFinalBioApp.models import Secuence
 
@@ -27,9 +20,13 @@ def home(request):
     return render(request,"TpFinalBioApp/home.html")
 
 def map(request, upload_id):
+    handler = SequenceHandler()
+    log_file = open('secuences/secuence.fasta_aln.fasta.log', 'r')
+    log_tree = log_file.read().splitlines(False)
+    img = handler.get_image_path(upload_id)
     data = serializers.serialize('json', Secuence.objects.filter(upload_id = upload_id), fields=('latitud','longitud','bio_id','address'))
     json_dict = json.loads(data)
-    return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict})
+    return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict, 'log': log_tree, 'img': img})
 
 def upload(request):
     if request.method == 'POST':
@@ -90,7 +87,9 @@ def uploaded_secuence(request):
 
         t = PhyloTree("secuences/secuence.fasta_aln.fasta.treefile")
         t.link_to_alignment('secuences/secuence.fasta_aln.fasta')
-        t.render("TpFinalBioApp/static/TpFinalBioApp/img/myTree.png", w=300, units="mm")
+        img_name = "TpFinalBioApp/static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".png"
+        print(img_name)
+        t.render(img_name, w=300, units="mm")
         print(t)
         os.remove("secuences/secuence.fasta_aln.fasta.model.gz")
 

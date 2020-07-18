@@ -112,3 +112,6 @@ class SequenceHandler():
 
     def clean_data(self):
         self._dic_data.clear()
+
+    def get_image_path(self, upload_id):
+        return "../../static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".png"
