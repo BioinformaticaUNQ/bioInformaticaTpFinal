@@ -66,32 +66,31 @@ def uploaded_secuence(request):
             fasta_to_insert.save()
 
         handler.clean_data()
-        clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
-        # clustalw_exe = r"/usr/bin/clustalw"
-        clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
-        assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
-        stdout, stderr = clustalw_cline()
-        alignment = AlignIO.read('secuences/secuence.fasta_aln.fasta', "fasta")
-        print('alineamiento \n' + str(alignment))
-
-
-        cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', 'secuences/scripts/armado del arbol.ps1']
-        ec = subprocess.call(cmd)
-        #print("Powershell returned: {0:d}".format(ec))
-        # os.system('./secuences/scripts/armado del arbol.sh')
+        
+        if platform.system() == 'Linux':
+            clustalw_exe = r"/usr/bin/clustalw"
+            clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
+            assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
+            stdout, stderr = clustalw_cline()
+            alignment = AlignIO.read('secuences/secuence.fasta_aln.fasta', "fasta")
+            os.system('./secuences/scripts/arbolsh.sh')
+        else:
+            clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
+            clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
+            assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
+            stdout, stderr = clustalw_cline()
+            alignment = AlignIO.read('secuences/secuence.fasta_aln.fasta', "fasta")
+            cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', 'secuences/scripts/armado del arbol.ps1']
+            ec = subprocess.call(cmd)
+        
 
         messages.success(request, f"El archivo se ha subido correctamente")
-        print(platform.system())
-        log_file = open('secuences/secuence.fasta_aln.fasta.log', 'r')
-        log_tree = log_file.read().splitlines(False)
-
         t = PhyloTree("secuences/secuence.fasta_aln.fasta.treefile")
         t.link_to_alignment('secuences/secuence.fasta_aln.fasta')
         img_name = "TpFinalBioApp/static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".png"
-        print(img_name)
         t.render(img_name, w=300, units="mm")
         print(t)
-        os.remove("secuences/secuence.fasta_aln.fasta.model.gz")
+        if platform.system() != 'Linux': os.remove("secuences/secuence.fasta_aln.fasta.model.gz")
 
         return redirect('Map', upload_id)
     else:
