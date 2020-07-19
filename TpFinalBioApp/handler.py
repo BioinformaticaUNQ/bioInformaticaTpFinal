@@ -2,9 +2,11 @@ import re
 
 from Bio import SeqIO, Entrez
 
+from TpFinalBio.settings.base import BASE_DIR
+
 
 def handle_uploaded_file(f):
-    with open('secuences/secuence.fasta', 'wb+') as destination:
+    with open(BASE_DIR +"/secuences/secuence.fasta", 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
