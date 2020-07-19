@@ -14,6 +14,8 @@ class FastaFile(models.Model):
 class Secuence(models.Model):
 
     address = models.CharField(max_length=500)
+    source = models.CharField(max_length=500)
+    date = models.CharField(max_length=500)
     bio_id = models.TextField()
     latitud = models.CharField(max_length=20)
     longitud = models.CharField(max_length=20)

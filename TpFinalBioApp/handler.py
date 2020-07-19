@@ -46,20 +46,17 @@ class SequenceHandler():
                     break
                 else:
                     # Busqueda de Accesionns en GenBank
-                    # Entrez.email = "12345BioInf@ejemplo.com"
-                    # handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
-                    # record = Entrez.read(handle)
+                    Entrez.email = "12345BioInf@ejemplo.com"
+                    handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
+                    record = Entrez.read(handle)
                     # loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
                     # if not 'Submitted' in loc:
                     #     loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
                     #
-                    # handle.close()
-                    #print(record.id)
-                    #print(record.name)
-                    # print(record)
+                    handle.close()
                     # description = (record[0]['GBSeq_source'])
                     # dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y, 'description': description}
-                    dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y}
+                    dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y, 'source': record[0]['GBSeq_source'], 'date':record[0]['GBSeq_create-date']}
                     self._dic_data.append(dic)
 
                     # alineamiento

@@ -25,12 +25,17 @@ $(function(){
                 map: map,
                 draggable: false
             });
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
             return function() {
-                infowindow.setContent(markers[i]['fields'].address);
+                infowindow.setContent("<div style='padding-bottom: 8px;'>" + markers[i]['fields'].source + "</div>" +
+                                      "<div style='text-align: center; padding-bottom: 8px;background-color: #26a69a;'>" + markers[i]['fields'].bio_id + "</div>" +
+                                      "<div style='text-align: center;'>" + markers[i]['fields'].date + "</div>");
                 infowindow.open(map, marker);
             }
             })(marker, i));
+            marker.addListener('mouseout', function() {
+                infowindow.close();
+            });
             latlngbounds.extend(marker.position);
         }
         if(markers.length > 0){

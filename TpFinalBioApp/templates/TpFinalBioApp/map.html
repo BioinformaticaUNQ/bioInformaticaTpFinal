@@ -49,11 +49,15 @@
                         <tr>
                             <th>Codigo de GBANK</th>
                             <th>Direccion</th>
+                            <th>Source</th>
+                            <th>Fecha Subida</th>
                         </tr>
                         {% for m in dataTable %}
                             <tr>
                                 <td> {{ m.fields.bio_id }}</td>
                                 <td> {{ m.fields.address }}</td>
+                                <td> {{ m.fields.source }}</td>
+                                <td> {{ m.fields.date }}</td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -71,12 +75,12 @@
 
 
     <input type="hidden" id="myVar" name="variable" value="{{ markers }}">
+    <div id="mapa" class="mapaStyle"></div>
+   
 
-        <div id="mapa" class="mapaStyle"></div>
-
-        <div class="mapaStyle">
-            <img src="{{img}}"  alt="">
-        </div>
+    <div class="mapaStyle">
+        <img src="{{img}}"  alt="">
+    </div>
 
 
 {% endblock %}

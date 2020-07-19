@@ -25,7 +25,7 @@ def map(request, upload_id):
     log_file = open('secuences/secuence.fasta_aln.fasta.log', 'r')
     log_tree = log_file.read().splitlines(False)
     img = handler.get_image_path(upload_id)
-    data = serializers.serialize('json', Secuence.objects.filter(upload_id = upload_id), fields=('latitud','longitud','bio_id','address'))
+    data = serializers.serialize('json', Secuence.objects.filter(upload_id = upload_id), fields=('latitud','longitud','bio_id','address','source','date'))
     json_dict = json.loads(data)
     return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict, 'log': log_tree, 'img': img})
 
@@ -58,12 +58,14 @@ def uploaded_secuence(request):
             coordenadas = convertDirectionToCoordinates(fasta['loc'])
             fasta_to_insert = Secuence()
             fasta_to_insert.address = fasta['loc']
+            fasta_to_insert.date = fasta['date']
             fasta_to_insert.latitud = coordenadas[0]
             fasta_to_insert.longitud = coordenadas[1]
             fasta_to_insert.bio_id = fasta['gb']
             fasta_to_insert.content = fasta['seq']
             fasta_to_insert.length = len(fasta['seq'])
             fasta_to_insert.upload_id = upload_id
+            fasta_to_insert.source = fasta['source']
             fasta_to_insert.save()
 
         handler.clean_data()
