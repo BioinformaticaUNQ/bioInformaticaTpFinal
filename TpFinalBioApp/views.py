@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.core import serializers
 from django.shortcuts import render, redirect
 from ete3 import PhyloTree
+
+from TpFinalBio.settings.base import IQTREE_PATH, BASE_DIR
 from TpFinalBioApp.forms import SecuenceForm
 from TpFinalBioApp.handler import handle_uploaded_file, SequenceHandler
 from TpFinalBioApp.models import Secuence
@@ -22,8 +24,9 @@ def home(request):
 
 def map(request, upload_id):
     handler = SequenceHandler()
-    log_file = open('secuences/secuence.fasta_aln.fasta.log', 'r')
+    log_file = open(BASE_DIR + '/secuences/secuence.fasta_aln.fasta.log', 'r')
     log_tree = log_file.read().splitlines(False)
+    log_file.close()
     img = handler.get_image_path(upload_id)
     data = serializers.serialize('json', Secuence.objects.filter(upload_id = upload_id), fields=('latitud','longitud','bio_id','address'))
     json_dict = json.loads(data)
@@ -46,7 +49,7 @@ def upload(request):
 
 
 def uploaded_secuence(request):
-    path = 'secuences/secuence.fasta'
+    path = BASE_DIR + '/secuences/secuence.fasta'
 
     handler = SequenceHandler()
     handler.validate_sequences(path)
@@ -74,25 +77,40 @@ def uploaded_secuence(request):
             clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
             assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
             stdout, stderr = clustalw_cline()
+
+            f = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
+            f.write(
+                IQTREE_PATH  + " -s \"" + BASE_DIR + "\secuences\secuence.fasta_aln.fasta" + "\" " + " -m MFP -bb 1000 -redo")
+
             alignment = AlignIO.read('secuences/secuence.fasta_aln.fasta', "fasta")
             os.system('./secuences/scripts/arbolsh.sh')
         else:
             clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
-            clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
+            clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= BASE_DIR +"\secuences\secuence.fasta_aln.fasta")
             assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
             stdout, stderr = clustalw_cline()
-            alignment = AlignIO.read('secuences/secuence.fasta_aln.fasta', "fasta")
-            cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', 'secuences/scripts/armado del arbol.ps1']
+
+            f = open(BASE_DIR + '/secuences/scripts/scriptarbol.ps1', 'w')
+            f.write("cd " + IQTREE_PATH + "\n" + "bin\iqtree -s \"" + BASE_DIR +"\secuences\secuence.fasta_aln.fasta"+ "\" " + " -m MFP -bb 1000 -redo")
+            f.close()
+
+            f2 = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
+            f2.write(
+                IQTREE_PATH + " -s \"" + BASE_DIR + "\secuences\secuence.fasta_aln.fasta" + "\" " + " -m MFP -bb 1000 -redo")
+            f2.close()
+            cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', BASE_DIR + '/secuences/scripts/scriptarbol.ps1']
             ec = subprocess.call(cmd)
         
 
         messages.success(request, f"El archivo se ha subido correctamente")
-        t = PhyloTree("secuences/secuence.fasta_aln.fasta.treefile")
-        t.link_to_alignment('secuences/secuence.fasta_aln.fasta')
+        tree_file = BASE_DIR + "/secuences/secuence.fasta_aln.fasta.treefile"
+        aln_path = BASE_DIR +"/secuences/secuence.fasta_aln.fasta"
+        t = PhyloTree(tree_file)
+        t.link_to_alignment(aln_path)
         img_name = "TpFinalBioApp/static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".png"
         t.render(img_name, w=300, units="mm")
         print(t)
-        if platform.system() != 'Linux': os.remove("secuences/secuence.fasta_aln.fasta.model.gz")
+        if platform.system() != 'Linux': os.remove(BASE_DIR + "/secuences/secuence.fasta_aln.fasta.model.gz")
 
         return redirect('Map', upload_id)
     else:

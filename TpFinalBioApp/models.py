@@ -1,15 +1,11 @@
 from django.db import models
 
-
-class Geolocalizador(models.Model):
-    
-    latitud = models.CharField(max_length=250)
-    longitud = models.CharField(max_length=250)
+from TpFinalBio.settings.base import BASE_DIR
 
 
 class FastaFile(models.Model):
 
-    file = models.FileField(upload_to= 'secuences/files/')
+    file = models.FileField(upload_to=  'secuences/files/')
 
 class Secuence(models.Model):
 
