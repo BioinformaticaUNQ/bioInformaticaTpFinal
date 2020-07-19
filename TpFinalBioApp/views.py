@@ -10,7 +10,7 @@ from Bio.Align.Applications import ClustalwCommandline
 from django.contrib import messages
 from django.core import serializers
 from django.shortcuts import render, redirect
-from ete3 import PhyloTree
+from ete3 import PhyloTree, TreeStyle
 
 from TpFinalBio.settings.base import IQTREE_PATH, BASE_DIR
 from TpFinalBioApp.forms import SecuenceForm
@@ -106,10 +106,16 @@ def uploaded_secuence(request):
         messages.success(request, f"El archivo se ha subido correctamente")
         tree_file = BASE_DIR + "/secuences/secuence.fasta_aln.fasta.treefile"
         aln_path = BASE_DIR +"/secuences/secuence.fasta_aln.fasta"
+
+        ts = TreeStyle()
+        ts.force_topology = True
+        ts.show_leaf_name = False
+        ts.branch_vertical_margin = 10
+
         t = PhyloTree(tree_file)
         t.link_to_alignment(aln_path)
-        img_name = "TpFinalBioApp/static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".png"
-        t.render(img_name, w=300, units="mm")
+        img_name = "TpFinalBioApp/static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".svg"
+        t.render(img_name, tree_style=ts)
         print(t)
         if platform.system() != 'Linux': os.remove(BASE_DIR + "/secuences/secuence.fasta_aln.fasta.model.gz")
 
