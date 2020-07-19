@@ -20,7 +20,7 @@ environ.Env.read_env()
 CLUSTAL_PATH = env("CLUSTAL_PATH")
 IQTREE_PATH = env("IQTREE_PATH")
 ALIGN_FASTA_PATH = env("ALIGN_FASTA_PATH")
-GOOGLE_API_KEY = env("GOOGLE_API_KEY")
+GOOGLE_MAPS_API_KEY = env("GOOGLE_API_KEY")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

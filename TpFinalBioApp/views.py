@@ -101,5 +101,5 @@ def uploaded_secuence(request):
 
 
 def convertDirectionToCoordinates(direction):
-    apikey = settings.GOOGLE_API_KEY
+    apikey = settings.GOOGLE_MAPS_API_KEY
     return gmplot.GoogleMapPlotter.geocode(direction, apikey=apikey)
