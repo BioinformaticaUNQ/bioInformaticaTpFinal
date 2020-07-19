@@ -82,10 +82,9 @@ def uploaded_secuence(request):
 
             f = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
             f.write(
-                IQTREE_PATH  + " -s \"" + BASE_DIR + "\secuences\secuence.fasta_aln.fasta" + "\" " + " -m MFP -bb 1000 -redo")
-
-            alignment = AlignIO.read('secuences/secuence.fasta_aln.fasta', "fasta")
-            os.system('./secuences/scripts/arbolsh.sh')
+                IQTREE_PATH  + " -s "  + BASE_DIR + "/secuences/secuence.fasta_aln.fasta" + " -m MFP -bb 1000 -redo")
+            f.close()
+            os.system(BASE_DIR + '/secuences/scripts/scriptarbol.sh')
         else:
             clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
             clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= BASE_DIR +"\secuences\secuence.fasta_aln.fasta")
