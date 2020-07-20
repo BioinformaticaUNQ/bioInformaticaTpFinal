@@ -281,10 +281,11 @@ ul.errorlist{
   color: red;
 }
 .mapaStyle {
+  margin-right: 5px;
   margin-top: 10px;
   position: relative;
   padding-bottom: 75%;
-  height: 0;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -312,6 +313,8 @@ ul.errorlist{
 
 .panel {
   padding-top: 12px;
+  margin-left: 5px;
+  margin-right: 5px;
   display: none;
   overflow: hidden;
 }
@@ -320,12 +323,28 @@ ul.errorlist{
   text-align: center;
 }
 
+.column {
+  float: left;
+  width: 50%;
+}
+
 .formatHeader{
   background-color: #26a69a;
   font-family: cursive;
 }
 
-.item { position: relative; width: 100%; height: 1000px; background-color: white; }
+.contenido{
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+.item { 
+  margin-top: 10px;
+  position: relative; 
+  width: 100%; 
+  height: 100%; 
+  background-color: #c8cbcf; 
+}
 svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
 

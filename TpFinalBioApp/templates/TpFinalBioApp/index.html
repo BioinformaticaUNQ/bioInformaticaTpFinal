@@ -59,17 +59,13 @@
   </nav>
   
   <!-- Contenido cambiante -->
-    <div class="container">
-      {% include 'common/messages.html' %}
-      <div class="row">
-        <div class="col-md-12 mx-auto">
-        {% block contenido %}
-        
-        {% endblock contenido %}
-
-      </div>
-    </div>
+  {% include 'common/messages.html' %}
+  <div class="contenido">
+    {% block contenido %}
+    {% endblock contenido %}
   </div>
+    
+ 
 
   <!-- Footer -->
   <footer class="footer text-faded text-center py-5">
