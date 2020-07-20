@@ -329,13 +329,20 @@ ul.errorlist{
 }
 
 .formatHeader{
-  background-color: #26a69a;
   font-family: cursive;
 }
 
 .contenido{
   margin-left: 8%;
   margin-right: 8%;
+}
+
+.divFormatHeader{
+  background-color: #26a69a;
+  width: 500px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  margin: 0 auto;
 }
 
 .item { 

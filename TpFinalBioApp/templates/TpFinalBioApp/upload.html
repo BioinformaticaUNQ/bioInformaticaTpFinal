@@ -8,8 +8,12 @@
         <h2 class="colorfont">Subir secuencia</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <h6 class="formatHeader">Formato Header: > gi | --- | gb | --- | loc | ---</h6>
-            {{ form|crispy}}
+            <div class="divFormatHeader">
+                <h6 class="formatHeader">Formato Header: > gi | --- | gb | --- | loc | ---</h6>
+            </div>
+            <div style="display: inline-block;">
+                {{ form|crispy}}
+            </div>
             <button type="submit" class="btn btn-primary">Upload file</button>
         </form>
         {% if url %}

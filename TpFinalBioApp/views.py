@@ -75,16 +75,10 @@ def uploaded_secuence(request):
 
         if not handler.is_aligned:
             if platform.system() == 'Linux':
-                clustalw_exe = settings.CLUSTAL_PATH
-                clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
-                assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
-                stdout, stderr = clustalw_cline()
 
-                f = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
-                f.write(
-                    IQTREE_PATH  + " -s "  + BASE_DIR + "/secuences/secuence.fasta_aln.fasta" + " -m MFP -bb 1000 -redo")
-                f.close()
-                os.system(BASE_DIR + '/secuences/scripts/scriptarbol.sh')
+                handler.lnx_alignment(path)
+                
+                handler.lnx_build_tree()
             else:
 
                 handler.win_alignment(path)

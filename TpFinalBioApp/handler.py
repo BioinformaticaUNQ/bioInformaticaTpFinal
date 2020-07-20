@@ -1,10 +1,12 @@
 import re
+import os
+import subprocess
 
 from Bio import SeqIO, Entrez
-import os
+from django.conf import settings
 from TpFinalBio.settings.base import BASE_DIR, CLUSTAL_PATH, IQTREE_PATH
 from Bio.Align.Applications import ClustalwCommandline
-import subprocess
+
 
 
 def handle_uploaded_file(f):
@@ -121,6 +123,12 @@ class SequenceHandler():
 
     def get_image_path(self, upload_id):
         return "../../static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".svg"
+
+    def lnx_alignment(self, path):
+        clustalw_exe = settings.CLUSTAL_PATH
+        clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
+        assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
+        stdout, stderr = clustalw_cline()
 
     def win_alignment(self, path):
         clustalw_exe = CLUSTAL_PATH
