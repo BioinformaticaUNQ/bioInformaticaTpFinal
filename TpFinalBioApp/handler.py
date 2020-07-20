@@ -43,7 +43,7 @@ class SequenceHandler():
             if seqobj.group(1) != '' and seqobj.group(2) and seqobj.group(3) and x.count("|") == 5:
                 
                 if not self.validate(str(y)):
-                    self._error_message = 'El contenido de la secuencia no es ADN' + 'sec: ' + x
+                    self._error_message = 'El contenido de la secuencia corresponde a un Acido Nucleico' + 'sec: ' + x
                     self._has_errors = True
                     break
                 else:
@@ -51,20 +51,20 @@ class SequenceHandler():
                     Entrez.email = "12345BioInf@ejemplo.com"
                     handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
                     record = Entrez.read(handle)
-                    # loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
-                    # if not 'Submitted' in loc:
-                    #     loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
-                    #
                     handle.close()
-                    # description = (record[0]['GBSeq_source'])
-                    # dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y, 'description': description}
-                    dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': seqobj.group(3), 'seq': y, 'source': record[0]['GBSeq_source'], 'date':record[0]['GBSeq_create-date']}
-                    self._dic_data.append(dic)
+                    loc= None
+                    try:
+                        loc= (record[0]['GBSeq_references'][0]['GBReference_journal'])
+                        if not 'Submitted' in loc:
+                            loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
+                        if not 'Submitted' in loc:
+                            loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
+                    except:
+                        print("An exception occurred")
+                    finally:
+                        dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': loc if loc is not None else seqobj.group(3), 'seq': y, 'source': record[0]['GBSeq_source'], 'date':record[0]['GBSeq_create-date']}
+                        self._dic_data.append(dic)
 
-                    # alineamiento
-                    if self.is_aligned:
-                        print(seqobj.group(1))
-                        # print(seqobj.group(2))
             else:
                 self._has_errors = True
                 break
@@ -89,7 +89,7 @@ class SequenceHandler():
         False
 
         """
-        alphabets = {'dna': re.compile('^[acgtn]*$', re.I),
+        alphabets = {'dna': re.compile('^[acgtnu]*$', re.I),
                      'protein': re.compile('^[acdefghiklmnpqrstvwy]*$', re.I)}
 
         if alphabets[alphabet].search(seq) is not None:
