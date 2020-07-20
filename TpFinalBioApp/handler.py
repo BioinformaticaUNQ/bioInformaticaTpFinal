@@ -138,7 +138,7 @@ class SequenceHandler():
         cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', BASE_DIR + '/secuences/scripts/scriptarbol.ps1']
         ec = subprocess.call(cmd)
 
-    def linux_build_tree(self):
+    def lnx_build_tree(self):
         f = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
         f.write(
             IQTREE_PATH + " -s " + BASE_DIR + "/secuences/secuence.fasta_aln.fasta" + " -m MFP -bb 1000 -redo")

@@ -93,7 +93,11 @@ def uploaded_secuence(request):
         else:
             # la secuencia esta alineada
             handler.make_file_aln_for_iqtree()
-            handler.win_build_tree()
+
+            if platform.system() == 'Linux':
+                handler.lnx_build_tree()
+            else:
+                handler.win_build_tree()
             print("flujo de secuencia alineada")
 
 

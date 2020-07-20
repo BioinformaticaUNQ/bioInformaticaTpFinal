@@ -323,5 +323,5 @@ fabric.properties
 /TpFinalBio/secuences/secuence.fasta_aln.fasta.treefile
 
 /TpFinalBioApp/static/TpFinalBioApp/img/output
-.env
-/TpFinalBio/secuences/scripts/
+/TpFinalBio/secuences/scripts/scriptarbol.ps1
+/TpFinalBio/secuences/scripts/scriptarbol.sh
