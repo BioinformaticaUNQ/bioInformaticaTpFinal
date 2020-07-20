@@ -9,3 +9,4 @@ django-crispy-forms
 biopython
 django-environ
 ete3
+apt
