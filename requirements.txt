@@ -8,3 +8,4 @@ dj-static==0.0.6
 django-crispy-forms
 biopython
 django-environ
+ete3
