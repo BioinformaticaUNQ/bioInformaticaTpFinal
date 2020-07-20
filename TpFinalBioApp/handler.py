@@ -1,8 +1,10 @@
 import re
 
 from Bio import SeqIO, Entrez
-
-from TpFinalBio.settings.base import BASE_DIR
+import os
+from TpFinalBio.settings.base import BASE_DIR, CLUSTAL_PATH, IQTREE_PATH
+from Bio.Align.Applications import ClustalwCommandline
+import subprocess
 
 
 def handle_uploaded_file(f):
@@ -43,7 +45,7 @@ class SequenceHandler():
             if seqobj.group(1) != '' and seqobj.group(2) and seqobj.group(3) and x.count("|") == 5:
                 
                 if not self.validate(str(y)):
-                    self._error_message = 'El contenido de la secuencia corresponde a un Acido Nucleico' + 'sec: ' + x
+                    self._error_message = 'El contenido de la secuencia corresponde a un Acido Nucleico ' + 'Secuencia: ' + x
                     self._has_errors = True
                     break
                 else:
@@ -70,7 +72,12 @@ class SequenceHandler():
                 break
 
     def secuencia_alineada(self, file):
-        return True
+        open(file.name, 'r')
+        with open(file.name, 'r') as f:
+            if '-' in f.read():
+                self.is_aligned = True
+        print('is aligned ' + str(self.is_aligned))
+        return self.is_aligned
 
     def validate(self, seq, alphabet='dna'):
         """
@@ -89,7 +96,7 @@ class SequenceHandler():
         False
 
         """
-        alphabets = {'dna': re.compile('^[acgtnu]*$', re.I),
+        alphabets = {'dna': re.compile('^[acgtu\-]*$', re.I),
                      'protein': re.compile('^[acdefghiklmnpqrstvwy]*$', re.I)}
 
         if alphabets[alphabet].search(seq) is not None:
@@ -114,3 +121,35 @@ class SequenceHandler():
 
     def get_image_path(self, upload_id):
         return "../../static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".svg"
+
+    def win_alignment(self, path):
+        clustalw_exe = CLUSTAL_PATH
+        clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA',
+                                             outfile=BASE_DIR + "\secuences\secuence.fasta_aln.fasta")
+        assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
+        stdout, stderr = clustalw_cline()
+
+    def win_build_tree(self):
+        f = open(BASE_DIR + '/secuences/scripts/scriptarbol.ps1', 'w')
+        f.write(
+            "cd " + IQTREE_PATH + "\n" + "bin\iqtree -s \"" + BASE_DIR + "\secuences\secuence.fasta_aln.fasta" + "\" " + " -m MFP -bb 1000 -redo")
+        f.close()
+
+        cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', BASE_DIR + '/secuences/scripts/scriptarbol.ps1']
+        ec = subprocess.call(cmd)
+
+    def linux_build_tree(self):
+        f = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
+        f.write(
+            IQTREE_PATH + " -s " + BASE_DIR + "/secuences/secuence.fasta_aln.fasta" + " -m MFP -bb 1000 -redo")
+        f.close()
+        os.system(BASE_DIR + '/secuences/scripts/scriptarbol.sh')
+
+    def make_file_aln_for_iqtree(self):
+
+        with open(BASE_DIR + '/secuences/secuence.fasta', 'rb+') as f:
+            with open(BASE_DIR + "/secuences/secuence.fasta_aln.fasta", "wb") as f1:
+                for line in f:
+                    print(line)
+                    f1.write(line)
+

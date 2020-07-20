@@ -4,9 +4,10 @@ import os
 import platform
 import subprocess
 import time
+
 import gmplot
-from Bio import AlignIO
 from Bio.Align.Applications import ClustalwCommandline
+from django.conf import settings
 from django.contrib import messages
 from django.core import serializers
 from django.shortcuts import render, redirect
@@ -16,7 +17,6 @@ from TpFinalBio.settings.base import IQTREE_PATH, BASE_DIR
 from TpFinalBioApp.forms import SecuenceForm
 from TpFinalBioApp.handler import handle_uploaded_file, SequenceHandler
 from TpFinalBioApp.models import Secuence
-from django.conf import settings
 
 
 def home(request):
@@ -72,36 +72,30 @@ def uploaded_secuence(request):
             fasta_to_insert.save()
 
         handler.clean_data()
-        
-        if platform.system() == 'Linux':
-            print(settings.CLUSTAL_PATH)
-            clustalw_exe = settings.CLUSTAL_PATH
-            clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
-            assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
-            stdout, stderr = clustalw_cline()
 
-            f = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
-            f.write(
-                IQTREE_PATH  + " -s "  + BASE_DIR + "/secuences/secuence.fasta_aln.fasta" + " -m MFP -bb 1000 -redo")
-            f.close()
-            os.system(BASE_DIR + '/secuences/scripts/scriptarbol.sh')
+        if not handler.is_aligned:
+            if platform.system() == 'Linux':
+                clustalw_exe = settings.CLUSTAL_PATH
+                clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= path + '_aln.fasta' )
+                assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
+                stdout, stderr = clustalw_cline()
+
+                f = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
+                f.write(
+                    IQTREE_PATH  + " -s "  + BASE_DIR + "/secuences/secuence.fasta_aln.fasta" + " -m MFP -bb 1000 -redo")
+                f.close()
+                os.system(BASE_DIR + '/secuences/scripts/scriptarbol.sh')
+            else:
+
+                handler.win_alignment(path)
+
+                handler.win_build_tree()
         else:
-            clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
-            clustalw_cline = ClustalwCommandline(clustalw_exe, infile=path, output='FASTA', outfile= BASE_DIR +"\secuences\secuence.fasta_aln.fasta")
-            assert os.path.isfile(clustalw_exe), "Clustal W executable missing"
-            stdout, stderr = clustalw_cline()
+            # la secuencia esta alineada
+            handler.make_file_aln_for_iqtree()
+            handler.win_build_tree()
+            print("flujo de secuencia alineada")
 
-            f = open(BASE_DIR + '/secuences/scripts/scriptarbol.ps1', 'w')
-            f.write("cd " + IQTREE_PATH + "\n" + "bin\iqtree -s \"" + BASE_DIR +"\secuences\secuence.fasta_aln.fasta"+ "\" " + " -m MFP -bb 1000 -redo")
-            f.close()
-
-            f2 = open(BASE_DIR + '/secuences/scripts/scriptarbol.sh', 'w')
-            f2.write(
-                IQTREE_PATH + " -s \"" + BASE_DIR + "\secuences\secuence.fasta_aln.fasta" + "\" " + " -m MFP -bb 1000 -redo")
-            f2.close()
-            cmd = ['powershell.exe', '-ExecutionPolicy', 'ByPass', '-File', BASE_DIR + '/secuences/scripts/scriptarbol.ps1']
-            ec = subprocess.call(cmd)
-        
 
         messages.success(request, f"El archivo se ha subido correctamente")
         tree_file = BASE_DIR + "/secuences/secuence.fasta_aln.fasta.treefile"
