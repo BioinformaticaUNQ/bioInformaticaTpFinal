@@ -38,6 +38,7 @@ def map(request, upload_id):
     return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict, 'log': log_tree, 'img': img, 'path_log': path_log, 'path_treefile': path_treefile, 'path_sec_aln': path_sec_aln})
 
 def upload(request):
+    fasta_example = "../../secuences/example-fasta.fasta"
     if request.method == 'POST':
         form = SecuenceForm(request.POST, request.FILES)
         if form.is_valid():
@@ -47,8 +48,8 @@ def upload(request):
     else:
         form = SecuenceForm()
     return render(request,"TpFinalBioApp/upload.html", {
-
-        'form': form
+        'form': form,
+        'fasta_example': fasta_example
     })
 
 

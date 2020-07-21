@@ -21,6 +21,7 @@ class SequenceHandler():
     _error_message = ''
     _has_errors = False
     _dic_data = []
+    _dic_seq = []
 
     def validate_sequences(self, path):
 
@@ -30,7 +31,7 @@ class SequenceHandler():
             self._error_message = 'la primera linea del archivo no inicia como un fasta >'
             self._has_errors = True
         else:
-            self.is_aligned = self.secuencia_alineada(file)
+            self.is_aligned = self.secuencia_alineada()
 
         fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
         seq_dict = {rec.description : rec.seq for rec in fasta_sequences}
@@ -44,7 +45,7 @@ class SequenceHandler():
                 self._error_message = 'El header ' + x + ' no contiene secuencia.'
                 self._has_errors = True
                 break
-            if seqobj.group(1) != '' and seqobj.group(2) and seqobj.group(3) and x.count("|") == 5:
+            if seqobj.group(1) != '' and seqobj.group(2) != '' and seqobj.group(3) != '' and x.count("|") == 5:
                 
                 if not self.validate(str(y)):
                     self._error_message = 'El contenido de la secuencia corresponde a un Acido Nucleico ' + 'Secuencia: ' + x
@@ -66,18 +67,24 @@ class SequenceHandler():
                     except:
                         print("An exception occurred")
                     finally:
+                        #dic_seq = {'seq' : y}
                         dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': loc if loc is not None else seqobj.group(3), 'seq': y, 'source': record[0]['GBSeq_source'], 'date':record[0]['GBSeq_create-date']}
                         self._dic_data.append(dic)
+                        #self._dic_seq.append(dic_seq)
 
             else:
                 self._has_errors = True
                 break
 
-    def secuencia_alineada(self, file):
+    def secuencia_alineada(self):
         open(file.name, 'r')
         with open(file.name, 'r') as f:
             if '-' in f.read():
                 self.is_aligned = True
+        #for seq in self._dic_seq:
+        #    if '-' in seq:
+        #        self.is_aligned = True
+        #        break
         print('is aligned ' + str(self.is_aligned))
         return self.is_aligned
 
@@ -120,6 +127,7 @@ class SequenceHandler():
 
     def clean_data(self):
         self._dic_data.clear()
+        #self.dic_seq.clear()
 
     def get_image_path(self, upload_id):
         return "../../static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".svg"

@@ -309,6 +309,7 @@ ul.errorlist{
   font-size: 16px;
   cursor: pointer;
   border-radius: 8px;
+  
 }
 
 .panel {
@@ -343,6 +344,20 @@ ul.errorlist{
   padding-bottom: 4px;
   padding-top: 4px;
   margin: 0 auto;
+}
+
+.buttonDownload{
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 25%;
+}
+
+a {
+  display: inline-block;
 }
 
 .item { 
