@@ -5,7 +5,7 @@ from TpFinalBio.settings.base import BASE_DIR
 
 class FastaFile(models.Model):
 
-    file = models.FileField(upload_to=  'secuences/files/')
+    file = models.FileField(upload_to=  'files/')
 
 class Secuence(models.Model):
 

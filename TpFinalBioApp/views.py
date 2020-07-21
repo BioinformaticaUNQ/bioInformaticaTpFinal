@@ -10,10 +10,12 @@ from Bio.Align.Applications import ClustalwCommandline
 from django.conf import settings
 from django.contrib import messages
 from django.core import serializers
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from ete3 import PhyloTree, TreeStyle
 
 from TpFinalBio.settings.base import IQTREE_PATH, BASE_DIR
+from TpFinalBio.settings.local import MEDIA_ROOT
 from TpFinalBioApp.forms import SecuenceForm
 from TpFinalBioApp.handler import handle_uploaded_file, SequenceHandler
 from TpFinalBioApp.models import Secuence
@@ -23,6 +25,7 @@ def home(request):
     return render(request,"TpFinalBioApp/home.html")
 
 def map(request, upload_id):
+    path_log = "../../secuences/secuence.fasta_aln.fasta.log"
     handler = SequenceHandler()
     log_file = open(BASE_DIR + '/secuences/secuence.fasta_aln.fasta.log', 'r')
     log_tree = log_file.read().splitlines(False)
@@ -30,7 +33,7 @@ def map(request, upload_id):
     img = handler.get_image_path(upload_id)
     data = serializers.serialize('json', Secuence.objects.filter(upload_id = upload_id), fields=('latitud','longitud','bio_id','address','source','date'))
     json_dict = json.loads(data)
-    return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict, 'log': log_tree, 'img': img})
+    return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict, 'log': log_tree, 'img': img, 'path_log': path_log})
 
 def upload(request):
     if request.method == 'POST':
@@ -120,3 +123,9 @@ def uploaded_secuence(request):
 def convertDirectionToCoordinates(direction):
     apikey = settings.GOOGLE_MAPS_API_KEY
     return gmplot.GoogleMapPlotter.geocode(direction, apikey=apikey)
+
+def download_log_IQTREE():
+        response = HttpResponse(open("../TpFinalBio/secuences/secuence.fasta_aln.fasta.log", 'rb').read())
+        response['Content-Type'] = 'text/plain'
+        response['Content-Disposition'] = 'attachment; filename=logIQTREE.txt'
+        return response

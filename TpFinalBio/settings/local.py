@@ -15,3 +15,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'secuences')
+
+MEDIA_URL = '/secuences/'
