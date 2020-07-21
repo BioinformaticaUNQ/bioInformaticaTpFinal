@@ -26,6 +26,8 @@ def home(request):
 
 def map(request, upload_id):
     path_log = "../../secuences/secuence.fasta_aln.fasta.log"
+    path_treefile = "../../secuences/secuence.fasta_aln.fasta.treefile"
+    path_sec_aln = "../../secuences/secuence.fasta_aln.fasta"
     handler = SequenceHandler()
     log_file = open(BASE_DIR + '/secuences/secuence.fasta_aln.fasta.log', 'r')
     log_tree = log_file.read().splitlines(False)
@@ -33,7 +35,7 @@ def map(request, upload_id):
     img = handler.get_image_path(upload_id)
     data = serializers.serialize('json', Secuence.objects.filter(upload_id = upload_id), fields=('latitud','longitud','bio_id','address','source','date'))
     json_dict = json.loads(data)
-    return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict, 'log': log_tree, 'img': img, 'path_log': path_log})
+    return render(request,"TpFinalBioApp/map.html",{'markers': data, 'dataTable': json_dict, 'log': log_tree, 'img': img, 'path_log': path_log, 'path_treefile': path_treefile, 'path_sec_aln': path_sec_aln})
 
 def upload(request):
     if request.method == 'POST':
