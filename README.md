@@ -81,7 +81,7 @@ $ sudo apt-get install iqtree
   IQTREE_PATH='Donde esta instalado IQTREE en tu maquina'
   GOOGLE_MAPS_API_KEY='Dejar lo mismo que está en el archivo .env.example'
 ```
-**Con esto deberías estar listo para poder correr el Software.
+**Con esto deberías estar listo para poder correr el Software.**
 
 ---
 
@@ -118,7 +118,7 @@ _En esta misma ruta debemos crear un archivo que se llame ".env" que sea igual a
   IQTREE_PATH='Donde esta instalado IQTREE en tu maquina'
   GOOGLE_MAPS_API_KEY='Dejar lo mismo que está en el archivo .env.example'
 ```
-**Con esto deberías estar listo para poder correr el Software.
+**Con esto deberías estar listo para poder correr el Software.**
 
 
 ***
