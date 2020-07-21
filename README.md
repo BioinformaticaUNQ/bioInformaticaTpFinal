@@ -139,8 +139,8 @@ _Seguidamente, podemos cargar un archivo .FASTA o .fst que sólo contenga secuen
 _El programa validara este archivo con las siguientes pautas:_
 
 1. Que el archivo sea formato .FASTA o .fst.
-2. Que su contenido coincida con el formato de un FASTA: cabecera (>|gi|12345|gb|accessionCode) - secuencia (ATGCU).
-3. Que el archivo posea además en cada cabecera una locación, unificada por pipes (|) con el siguiente formato ejemplo: |loc| Universidad Nacional de Quilmes, Bernal.
+2. Que su contenido coincida con el formato de un FASTA: cabecera **(>|gi|12345|gb|accessionCode) - secuencia (ATGCU)**.
+3. Que el archivo posea además en cada cabecera una locación, unificada por pipes (|) con el siguiente formato ejemplo: **|loc| Universidad Nacional de Quilmes, Bernal**.
 4. Que cada cabecera presente en el archivo tenga su correspondiente secuencia asociada (no pueden quedar cabeceras sin secuencias).
 5. Que lo imputado en cada secuencia sean efectivamente secuencias de ADN/ARN.
 
