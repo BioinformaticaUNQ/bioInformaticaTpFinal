@@ -31,60 +31,55 @@ class SequenceHandler():
             self._error_message = 'la primera linea del archivo no inicia como un fasta >'
             self._has_errors = True
         else:
-            self.is_aligned = self.secuencia_alineada()
 
-        fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
-        seq_dict = {rec.description : rec.seq for rec in fasta_sequences}
-        for x, y in seq_dict.items():
-            seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*).loc.(.*)', x)
-            if seqobj is None:
-                self._error_message = 'El header de ' + x + ' no cumple con el formato fasta requerido.'
-                self._has_errors = True
-                break
-            if y == '':
-                self._error_message = 'El header ' + x + ' no contiene secuencia.'
-                self._has_errors = True
-                break
-            if seqobj.group(1) != '' and seqobj.group(2) != '' and seqobj.group(3) != '' and x.count("|") == 5:
-                
-                if not self.validate(str(y)):
-                    self._error_message = 'El contenido de la secuencia corresponde a un Acido Nucleico ' + 'Secuencia: ' + x
+            fasta_sequences = SeqIO.parse(open(path, 'r'), 'fasta')
+            seq_dict = {rec.description : rec.seq for rec in fasta_sequences}
+            for x, y in seq_dict.items():
+                seqobj = re.search(r'gi.(\d*).gb.(\w*.\d*).loc.(.*)', x)
+                if seqobj is None:
+                    self._error_message = 'El header de ' + x + ' no cumple con el formato fasta requerido.'
                     self._has_errors = True
                     break
-                else:
-                    # Busqueda de Accesionns en GenBank
-                    Entrez.email = "12345BioInf@ejemplo.com"
-                    handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
-                    record = Entrez.read(handle)
-                    handle.close()
-                    loc= None
-                    try:
-                        loc= (record[0]['GBSeq_references'][0]['GBReference_journal'])
-                        if not 'Submitted' in loc:
-                            loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
-                        if not 'Submitted' in loc:
-                            loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
-                    except:
-                        print("An exception occurred")
-                    finally:
-                        #dic_seq = {'seq' : y}
-                        dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': loc if loc is not None else seqobj.group(3), 'seq': y, 'source': record[0]['GBSeq_source'], 'date':record[0]['GBSeq_create-date']}
-                        self._dic_data.append(dic)
-                        #self._dic_seq.append(dic_seq)
+                if y == '':
+                    self._error_message = 'El header ' + x + ' no contiene secuencia.'
+                    self._has_errors = True
+                    break
+                if seqobj.group(1) != '' and seqobj.group(2) != '' and seqobj.group(3) != '' and x.count("|") == 5:
 
-            else:
-                self._has_errors = True
-                break
+                    if not self.validate(str(y)):
+                        self._error_message = 'El contenido de la secuencia corresponde a un Acido Nucleico ' + 'Secuencia: ' + x
+                        self._has_errors = True
+                        break
+                    else:
+                        # Busqueda de Accesionns en GenBank
+                        Entrez.email = "12345BioInf@ejemplo.com"
+                        handle = Entrez.efetch(db="nucleotide", id=seqobj.group(2), rettype="gb", retmode="xml")
+                        record = Entrez.read(handle)
+                        handle.close()
+                        loc= None
+                        try:
+                            loc= (record[0]['GBSeq_references'][0]['GBReference_journal'])
+                            if not 'Submitted' in loc:
+                                loc= (record[0]['GBSeq_references'][1]['GBReference_journal'])
+                            if not 'Submitted' in loc:
+                                loc= (record[0]['GBSeq_references'][2]['GBReference_journal'])
+                        except:
+                            print("An exception occurred")
+                        finally:
+                            dic_seq = {'seq' : y}
+                            dic = {'gi':seqobj.group(1),'gb': seqobj.group(2),'loc': loc if loc is not None else seqobj.group(3), 'seq': y, 'source': record[0]['GBSeq_source'], 'date':record[0]['GBSeq_create-date']}
+                            self._dic_data.append(dic)
+                            self._dic_seq.append(dic_seq)
+                else:
+                    self._has_errors = True
+                    break
+            self.is_aligned = self.secuencia_alineada()
 
     def secuencia_alineada(self):
-        open(file.name, 'r')
-        with open(file.name, 'r') as f:
-            if '-' in f.read():
+        for seq in self._dic_seq:
+            if '-' in seq:
                 self.is_aligned = True
-        #for seq in self._dic_seq:
-        #    if '-' in seq:
-        #        self.is_aligned = True
-        #        break
+                break
         print('is aligned ' + str(self.is_aligned))
         return self.is_aligned
 
@@ -127,7 +122,7 @@ class SequenceHandler():
 
     def clean_data(self):
         self._dic_data.clear()
-        #self.dic_seq.clear()
+        self._dic_seq.clear()
 
     def get_image_path(self, upload_id):
         return "../../static/TpFinalBioApp/img/output/myTree"+"_"+str(upload_id)+".svg"
