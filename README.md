@@ -32,7 +32,7 @@ _Para correr el software localmente debemos tener instalado tanto Python 3.6 o s
 
 ***
 
-***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
+***_Nota: En caso de estar corriendo este software en un IDE propio o por consola, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
 
 ```
 $ python3 pip3 install -r requirements.txt
@@ -96,7 +96,7 @@ $ sudo apt-get install iqtree
 _Para correr el software localmente debemos tener instalado previamente tanto Python 3.6 o superior, como las respectivas librerías que listamos anteriormente._
 
 ***
-***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
+***_Nota: En caso de estar corriendo este software en un IDE propio o por consola, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
 
 ```
 $ python3 pip3 install -r requirements.txt
@@ -138,7 +138,7 @@ _En esta misma ruta debemos crear un archivo que se llame ".env" que sea igual a
 
 ## Ejecución - Paso a Paso 📋
 
-_Una vez realizdos los pasos de instalación, debemos pararnos sobre el directorio donde tenemos los archivos y ejecutar los siguientes comandos a través de consola (también puede realizarse el proceso a través de un IDE):
+_Una vez realizados los pasos de instalación, debemos pararnos sobre el directorio donde tenemos los archivos y ejecutar los siguientes comandos a través de consola (también puede realizarse el proceso a través de un IDE):_
 	
 ```
 $ python manage.py makemigrations
