@@ -36,7 +36,7 @@ _Para correr el software localmente debemos tener instalado tanto Python 3.6 o s
 ***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
 ***
 ```
-$ python3 -V
+$ python3 pip3 install -r requirements.txt
 ```
 ***
 
@@ -97,7 +97,7 @@ _Para correr el software localmente debemos tener instalado previamente tanto Py
 ***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
 ***
 ```
-$ python3 -V
+$ python3 pip3 install -r requirements.txt
 ```
 ***
 
