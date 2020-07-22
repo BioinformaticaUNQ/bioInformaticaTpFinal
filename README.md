@@ -33,7 +33,10 @@ _El trabajo está basado sobre lenguaje Python y bajo el framework de Django, pe
 _Para correr el software localmente debemos tener instalado tanto Python 3.6 o superior, como las respectivas librerías que listamos anteriormente._
 
 
-***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa._***
+***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
+***```
+$ python3 -V
+```***
 
 
 
@@ -89,8 +92,10 @@ $ sudo apt-get install iqtree
 
 _Para correr el software localmente debemos tener instalado previamente tanto Python 3.6 o superior, como las respectivas librerías que listamos anteriormente._
 
-***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa._***
-
+***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
+***```
+$ python3 -V
+```***
 
 
 * Primero, nos asegurarnos que tenemos Python 3.6 o superior correctamente instalado. Puede descargarse desde el siguiente [link](https://www.python.org/downloads/windows/).
@@ -155,25 +160,3 @@ _Por último, se puede descargar la información obtenida y volver a correr el p
 
 
 ***
-
-
-# AGREGADOS
-
-* Deploy a heroku
-  - heroku git:remote -a tpbioinformatica
-  - git push -u heroku master
-  
-* Deploy a Git
-  - git push -u origin master
-  
-* Cuando se agrega una dependecia correr:
-  - pip freeze > requirements.txt
-  
-* Correr migraciones en Heroku:
-  - heroku run python manage.py makemigrations
-  - heroku run python manage.py migrate
-  
-#####################################################
-#  Online Demo:                                     # 
-#  https://tpbioinformatica.herokuapp.com/           #
-#####################################################
