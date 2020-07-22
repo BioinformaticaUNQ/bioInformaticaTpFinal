@@ -37,6 +37,8 @@ _Para correr el software localmente debemos tener instalado tanto Python 3.6 o s
 ***
 ```
 $ python3 pip3 install -r requirements.txt
+o bien:
+$ python3 pip install -r requirements.txt
 ```
 ***
 
@@ -98,6 +100,8 @@ _Para correr el software localmente debemos tener instalado previamente tanto Py
 ***
 ```
 $ python3 pip3 install -r requirements.txt
+o bien:
+$ python3 pip install -r requirements.txt
 ```
 ***
 
@@ -164,3 +168,5 @@ _Por último, se puede descargar la información obtenida y volver a correr el p
 
 
 ***
+
+## Muchas gracias!
