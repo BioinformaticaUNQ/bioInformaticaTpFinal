@@ -2,8 +2,6 @@
 
 _Se desarrolló un Software que permite  la visualización de estudios filogenéticos y filodinámicos de secuencias con su posterior geolocalización. Este Software corre en Web de manera local, y soporta la carga de archivos FASTA con secuencias de Ácidos Nucleicos (ADN y ARN)._
 
-_También puede verse la entrega de los trabajos parciales que se fueron dando en clase a través del siguiente [link](https://github.com/nahuelmpereyra/bioinformatica-entregas)._
-
 ***
 
 ## Autores ✒️
@@ -32,12 +30,13 @@ _El trabajo está basado sobre lenguaje Python y bajo el framework de Django, pe
 
 _Para correr el software localmente debemos tener instalado tanto Python 3.6 o superior, como las respectivas librerías que listamos anteriormente._
 
-
-***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
 ***
+
+***_Nota: En caso de estar corriendo este software en un IDE propio o por consola, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
+
 ```
 $ python3 pip3 install -r requirements.txt
-o bien:
+  o bien:
 $ python3 pip install -r requirements.txt
 ```
 ***
@@ -81,7 +80,7 @@ $ sudo apt-get install iqtree
 ```
 * Por último, debe ingresarse a la ruta local donde se descargó este proyecto, y abrir el archivo que se encuentra en la siguiente ruta TpFinalBio -> Settings -> .env.example .
 
- _En esta misma ruta debemos crear un archivo que se llame ".env" que sea igual al "example, pero especificarle los Paths en los que está instalado Clustal e IQTree en la máquina de quien lo corre:_
+ _En esta misma ruta debemos crear un archivo que se llame ".env" que sea igual al "env.example", pero especificarle los Paths en los que está instalado Clustal e IQTree en la máquina de quien lo corre:_
 
 ```
   CLUSTAL_PATH='Donde esta instalado Clustal en tu maquina'
@@ -96,11 +95,12 @@ $ sudo apt-get install iqtree
 
 _Para correr el software localmente debemos tener instalado previamente tanto Python 3.6 o superior, como las respectivas librerías que listamos anteriormente._
 
-***_Nota: En caso de estar corriendo este software en un IDE propio, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
 ***
+***_Nota: En caso de estar corriendo este software en un IDE propio o por consola, el repositorio incluye un archivo "requirements.txt" con el que automáticamente se solicita la instalación de todas las bibliotecas necesarias para ejecutar el programa. Para ello, se debe ejecutar el siguiente comando:_***
+
 ```
 $ python3 pip3 install -r requirements.txt
-o bien:
+  o bien:
 $ python3 pip install -r requirements.txt
 ```
 ***
@@ -124,7 +124,7 @@ $ python3 pip install -r requirements.txt
 
 * Por último, debe ingresarse a la ruta local donde se descargó este proyecto, y abrir el archivo que se encuentra en la siguiente ruta TpFinalBio -> Settings -> .env.example .
 
-_En esta misma ruta debemos crear un archivo que se llame ".env" que sea igual al "example, pero especificarle los Paths en los que está instalado Clustal e IQTree en la máquina de quien lo corre:_
+_En esta misma ruta debemos crear un archivo que se llame ".env" que sea igual al "env.example", pero especificarle los Paths en los que está instalado Clustal e IQTree en la máquina de quien lo corre:_
 
 ```
   CLUSTAL_PATH='Donde esta instalado Clustal en tu maquina'
@@ -138,7 +138,7 @@ _En esta misma ruta debemos crear un archivo que se llame ".env" que sea igual a
 
 ## Ejecución - Paso a Paso 📋
 
-_Para correr nuestro software localmente debemos abrir el proyecto en un IDE (cualquiera que soporte Python), y correr lo siguiente en consola:_
+_Una vez realizados los pasos de instalación, debemos pararnos sobre el directorio donde tenemos los archivos y ejecutar los siguientes comandos a través de consola (también puede realizarse el proceso a través de un IDE):_
 	
 ```
 $ python manage.py makemigrations
@@ -149,20 +149,25 @@ _Con esto, ya debiera correr localmente nuestro programa en una nueva ventana de
 
 _Seguidamente, podemos cargar un archivo .FASTA o .fst que sólo contenga secuencias de Ácidos Nucléicos (ADN y ARN, secuencias con A-T-G-C-U)._
 
+***
+
 _El programa validara este archivo con las siguientes pautas:_
 
-1. Que el archivo sea formato .FASTA o .fst.
-2. Que su contenido coincida con el formato de un FASTA: cabecera **(>|gi|12345|gb|accessionCode) - secuencia (ATGCU)**.
-3. Que el archivo posea además en cada cabecera una locación, unificada por pipes (|) con el siguiente formato ejemplo: **|loc| Universidad Nacional de Quilmes, Bernal**.
-4. Que cada cabecera presente en el archivo tenga su correspondiente secuencia asociada (no pueden quedar cabeceras sin secuencias).
-5. Que lo imputado en cada secuencia sean efectivamente secuencias de ADN/ARN.
+1. Que el archivo y su contenido coincidan con el formato de un FASTA: cabecera **(>|gi|12345|gb|accessionCode) - secuencia (ATGCU)**. Es importante que cada secuencia posea su  accesion number de GenBank, ya que el Software va a buscar toda la información a esta Base de Datos.
 
+2. Que el archivo posea además en cada cabecera una locación, unificada por pipes (|) con el siguiente formato ejemplo: **|loc| Universidad Nacional de Quilmes, Bernal**. En    caso de que la secuencia imputada posea una locación cargada en Genbank, el programa tomará esta como principal. Caso contrario, toma la locación cargada por el usuario 	en la cabecera (por esto es que es obligatoria la carga de la locación).
+
+3. Que cada cabecera presente en el archivo tenga su correspondiente secuencia asociada (no pueden quedar cabeceras sin secuencias).
+
+4. Que lo imputado en cada secuencia sean efectivamente secuencias de ADN/ARN.
+
+***
 _Una vez superada efectivamente esta validación, se cargará el archivo y el programa nos redireccionará automáticamente a un nuevo link donde tendremos cargado:_
 
-- Una tabla de tipo acordeón que contiene: Secuencia - Accession de GenBank - Locación.
-- Otro desplegable con los diferentes inputs realizados, disponibilizados para su descarga.
+- Una tabla de tipo acordeón que contiene: Accession de GenBank - Descripción de la Secuencia - Fecha de Carga en Genbank.
+- Otro desplegable con los diferentes inputs realizados, disponibilizados para su descarga (secuencias alineadas, árbol filogenético).
 - Un mapa con la locación de cada una de las respectivas secuencias cargadas junto con su accession code.
-- Un diagrama de árbol filogenético donde muestra las coincidencias y discrepancias entre las secuencias según las relaciones evolutivas.
+- Un diagrama de árbol filogenético que agrupa las secuencias cargadas de acuerdo a su similitud.
 
 _Por último, se puede descargar la información obtenida y volver a correr el programa con un nuevo archivo de secuencias._
 
