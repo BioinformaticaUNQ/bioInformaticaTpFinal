@@ -64,20 +64,29 @@
                 </div>
             </div>
             <div class="wrapper column">
-                <button class="accordion"><i class="fa fa-info-circle"></i> Ver parametros de corrida de IQ-TREE</button>
+                <button class="accordion"><i class="fa fa-info-circle"></i> Mas Informacion...</button>
                 <div class="panel">
-                    <p>IQ-TREE multicore version 1.6.12 for Windows 64-bit built Aug 15 2019
+                    <p class="info">
+                        IQ-TREE multicore version 1.6.12 for Windows 64-bit built Aug 15 2019
                         Developed by Bui Quang Minh, Nguyen Lam Tung, Olga Chernomor,
                         Heiko Schmidt, Dominik Schrempf, Michael Woodhams.
-                        El arbol fue generado con el software IQ-TREE corriendolo con los parametros:
-                        - MFP (ModelFinder Plus) que escoje el modelo que mejor se adapta a la secuencia.
-                        - Bootstrap = 1000
-                        <a href="{{ path_log }}" class="buttonDownload" target="_blank"><i class="fa fa-download"></i> IQ-TREE Log</a>
-
                     </p>
-                    <p></p>
-                    <p><a href="{{ path_treefile }}" class="buttonDownload" target="_blank"><i class="fa fa-download"></i> Treefile</a></p>
-                    <p><a href="{{ path_sec_aln }}" class="buttonDownload" target="_blank"><i class="fa fa-download"></i> Secuence Align</a></p>
+                    <p class="info"> 
+                        El arbol fue generado con el software IQ-TREE corriendolo con los parametros:<br>
+                        <div>
+                            <ul class="a">
+                                <li class="infoParametros">- MFP (ModelFinder Plus) que escoje el modelo que mejor se adapta a la secuencia.</li>
+                                <li class="infoParametros">- Bootstrap = 1000</li>
+                              </ul>
+                        </div>
+                    </p>
+                    <a href="{{ path_log }}" class="buttonDownload" target="_blank"><i class="fa fa-download"></i> IQ-TREE Log</a>
+                    <a href="{{ path_treefile }}" class="buttonDownload" target="_blank"><i class="fa fa-download"></i> TreeFile</a>
+
+                    <p class="info" style="margin-top: 5px;">
+                        Informacion del Alineamiento:
+                    </p>
+                    <p><a href="{{ path_sec_aln }}" class="buttonDownload" target="_blank"><i class="fa fa-download"></i> Secuencias Alineadas</a></p>
                 </div>
             </div>
 

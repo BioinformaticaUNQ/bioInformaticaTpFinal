@@ -80,7 +80,6 @@ class SequenceHandler():
             if '-' in seq:
                 self.is_aligned = True
                 break
-        print('is aligned ' + str(self.is_aligned))
         return self.is_aligned
 
     def validate(self, seq, alphabet='dna'):
@@ -161,6 +160,5 @@ class SequenceHandler():
         with open(BASE_DIR + '/secuences/secuence.fasta', 'rb+') as f:
             with open(BASE_DIR + "/secuences/secuence.fasta_aln.fasta", "wb") as f1:
                 for line in f:
-                    print(line)
                     f1.write(line)
 

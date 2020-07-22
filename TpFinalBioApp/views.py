@@ -98,7 +98,6 @@ def uploaded_secuence(request):
                 handler.lnx_build_tree()
             else:
                 handler.win_build_tree()
-            print("flujo de secuencia alineada")
 
 
         messages.success(request, f"El archivo se ha subido correctamente")
