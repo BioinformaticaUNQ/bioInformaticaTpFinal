@@ -106,6 +106,7 @@ def uploaded_secuence(request):
 
         ts = TreeStyle()
         ts.force_topology = True
+        ts.show_branch_support = True
         ts.show_leaf_name = False
         ts.branch_vertical_margin = 10
 
